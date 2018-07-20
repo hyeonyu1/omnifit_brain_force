@@ -1,0 +1,6 @@
+@font-face {
+  font-family: 'Multicolore';
+  src: url('../assets/fonts/Multicolore.otf');
+}
+
+canvas { border: 1px solid #000; }
