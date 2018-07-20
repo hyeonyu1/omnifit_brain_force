@@ -3,7 +3,6 @@
 
 ### Angular ###
 ## Angular ##
-/**/*.js
 # compiled output
 /dist
 /tmp
@@ -146,4 +145,3 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/node,macos,angular,windows
 /out-tsc/
 /bash.exe.stackdump
-/drone.iml
