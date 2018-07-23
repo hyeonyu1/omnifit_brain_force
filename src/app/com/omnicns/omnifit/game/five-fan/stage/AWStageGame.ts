@@ -71,9 +71,9 @@ export class AWStageGame extends AWStage {
     this.room.local = this.localAlgo;
     this.room.other = this.otherAlgo;
     this.room.local.clearConcentration();
-    this.room.local.clearSuccessHistory();
+    // this.room.local.clearSuccessHistory();
     this.room.other.clearConcentration();
-    this.room.other.clearSuccessHistory();
+    // this.room.other.clearSuccessHistory();
     // this.objs.filter( (it) => it instanceof Arm).forEach( (it) => it.id = this.otherAlgo.name);
     // this.audio = ResourceManager.getInstance().resources('CSC018Sound');
     // this.audio.play();
@@ -96,27 +96,25 @@ export class AWStageGame extends AWStage {
         this.room.startCnt = (--this.room.startCnt);
         this.room.status = RoomStatusCode.WAIT;
         this.room.local.clearConcentration();
-        this.room.local.clearSuccessHistory();
+        // this.room.local.clearSuccessHistory();
         this.room.other.clearConcentration();
-        this.room.other.clearSuccessHistory();
-      }else if (this.room.startCnt <= 0 && this.room.endCnt > 0 && this.room.other.successHistory.length >= 10) { // run중에 꽉차서 END
-        this.room.status = RoomStatusCode.END;
-        this.room.onStop();
-      }else if (this.room.startCnt <= 0 && this.room.endCnt > 0) { // 시간 다되서 END
-        this.room.endCnt = (--this.room.endCnt);
+        // this.room.other.clearSuccessHistory();
+      // }else if (this.room.startCnt <= 0 && this.room.endCnt > 0 && this.room.other.successHistory.length >= 10) { // run중에 꽉차서 END
+      }else if (this.room.startCnt <= 0) { // 시간 다되서 END
         this.room.status = RoomStatusCode.RUN;
-      }else if (this.room.startCnt <= 0 && this.room.endCnt <= 0) {
-        this.room.status = RoomStatusCode.END;
-        this.room.onStop();
       }
+      // }else if (this.room.startCnt <= 0 && this.room.endCnt <= 0) {
+      //   this.room.status = RoomStatusCode.END;
+      //   this.room.onStop();
+      // }
       this.roomDetailSubject.next(this.room);
     });
 
     this.roomDetailSubScription = this.roomDetailSubject.filter( (it) => !ValidUtil.isNullOrUndefined(it.local) && !ValidUtil.isNullOrUndefined(it.other)).subscribe( (room: Room) => {
       this.room = room;
-      if ((RoomStatusCode.END === room.status) && ValidUtil.isNullOrUndefined(this.resultPopup)) {
-        this.resultPopup = this.pushResultPopupOnCreateStart(this.room);
-      }
+      // if ((RoomStatusCode.END === room.status) && ValidUtil.isNullOrUndefined(this.resultPopup)) {
+      //   this.resultPopup = this.pushResultPopupOnCreateStart(this.room);
+      // }
     });
     // if (!ValidUtil.isNullOrUndefined(this.arm)) {
     //   this.removeObjOnStopDestory(this.arm);

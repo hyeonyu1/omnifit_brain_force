@@ -8,7 +8,6 @@ import 'rxjs/add/operator/map';
 import {DeviceManager} from './com/omnicns/omnifit/drive/DeviceManager';
 import {AWResourceManager} from './com/omnicns/omnifit/game/five-fan/AWResourceManager';
 import {AWStageManager} from './com/omnicns/omnifit/game/five-fan/AWStageManager';
-import {Alarm} from './com/omnicns/omnifit/game/five-fan/obj/alarm/Alarm';
 import {BackGround} from './com/omnicns/omnifit/game/five-fan/obj/background/BackGround';
 import {MainBackGround} from './com/omnicns/omnifit/game/five-fan/obj/game/MainBackGround';
 import {Leaf} from './com/omnicns/omnifit/game/five-fan/obj/intro/Leaf';
@@ -21,7 +20,7 @@ import {AWStageGame} from './com/omnicns/omnifit/game/five-fan/stage/AWStageGame
 import {AWStageIntro} from './com/omnicns/omnifit/game/five-fan/stage/AWStageIntro';
 import {Fan} from './com/omnicns/omnifit/game/five-fan/obj/game/Fan';
 import {WigMan} from './com/omnicns/omnifit/game/five-fan/obj/game/WigMan';
-import {FanShelf} from './com/omnicns/omnifit/game/five-fan/obj/game/FanShelf';
+import {Track} from './com/omnicns/omnifit/game/five-fan/obj/game/Track';
 import {Rail} from './com/omnicns/omnifit/game/five-fan/obj/game/Rail';
 import {Bench} from './com/omnicns/omnifit/game/five-fan/obj/game/Bench';
 import {Flags} from './com/omnicns/omnifit/game/five-fan/obj/game/Flags';
@@ -142,17 +141,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     irail.index = 50;
     stageIntro.pushObj(irail);
 
-    const ifanShelf = new FanShelf(stageIntro, 0, 0, 0, AWResourceManager.getInstance().resources('ic_shelfImg'));
-    ifanShelf.index = 100;
-    stageIntro.pushObj(ifanShelf);
+    const itrack = new Track(stageIntro, 0, 0, 0, AWResourceManager.getInstance().resources('ic_track_01Img'));
+    itrack.index = 100;
+    stageIntro.pushObj(itrack);
 
-    let ifanOrder = 1;
-    for (let i = 500; i <= 509; i++) {
-      const fan = new Fan(stageIntro, AWResourceManager.getInstance().resources('ic_fan_offImg'), ifanOrder++);
-      fan.index = i;
-      console.log(fan.order);
-      stageIntro.pushObj(fan);
-    }
+    // let ifanOrder = 1;
+    // for (let i = 500; i <= 509; i++) {
+    //   const fan = new Fan(stageIntro, AWResourceManager.getInstance().resources('ic_fan_offImg'), ifanOrder++);
+    //   fan.index = i;
+    //   console.log(fan.order);
+    //   stageIntro.pushObj(fan);
+    // }
 
     const instroPopup = new IntroPopup(stageIntro, 0, 0, 0, AWResourceManager.getInstance().resources('intro_text_02Img'));
     instroPopup.index = 600;
@@ -239,30 +238,27 @@ export class AppComponent implements OnInit, AfterViewInit {
     rail.index = 50;
     stageGame.pushObj(rail);
 
-    const fanShelf = new FanShelf(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('ic_shelfImg'));
-    fanShelf.index = 100;
-    stageGame.pushObj(fanShelf);
+    const track = new Track(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('ic_track_01Img'));
+    track.index = 100;
+    stageGame.pushObj(track);
 
-    let fanOrder = 1;
-    for (let i = 500; i <= 509; i++) {
-      const fan = new Fan(stageGame, AWResourceManager.getInstance().resources('ic_fan_offImg'), fanOrder++);
-      fan.index = i;
-      console.log(fan.order);
-      stageGame.pushObj(fan);
-    }
+    // let fanOrder = 1;
+    // for (let i = 500; i <= 509; i++) {
+    //   const fan = new Fan(stageGame, AWResourceManager.getInstance().resources('ic_fan_offImg'), fanOrder++);
+    //   fan.index = i;
+    //   console.log(fan.order);
+    //   stageGame.pushObj(fan);
+    // }
 
     //man
-    const winMan = new WigMan(stageGame, AWResourceManager.getInstance().resources('ic_maincharacter_1Img'), fanOrder++);
-    winMan.index = 600;
-    stageGame.pushObj(winMan);
+    // const winMan = new WigMan(stageGame, AWResourceManager.getInstance().resources('ic_maincharacter_1Img'), fanOrder++);
+    // winMan.index = 600;
+    // stageGame.pushObj(winMan);
 
     const score = new Score(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('gage_00Img'));
     score.index = 1001;
     stageGame.pushObj(score);
 
-    const alarm = new Alarm(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('alarm_iconImg'));
-    alarm.index = 1002;
-    stageGame.pushObj(alarm);
 
     const timer = new Timer(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('gage_00Img'));
     timer.index = 1003;

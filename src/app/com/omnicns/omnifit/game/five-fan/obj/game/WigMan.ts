@@ -29,15 +29,15 @@ export class WigMan extends AWObj {
     const stepSize = ((this.stage.height / 2) / 10);
     const targetPosition = new PointVector(this.stage.width / 2, this.stage.height - 50);
 
-      if (this.room && this.room.other.successHistory.length > 6 && this.room.other.successHistory.length <= 8) {
-        targetPosition.x = (this.stage.width / 2) + Math.trunc(RandomUtil.random(-1.99, 1.99));
-      } else if (this.room && this.room.other.successHistory.length > 8 && this.room.other.successHistory.length <= 9) {
-        targetPosition.x = (this.stage.width / 2) + Math.trunc(RandomUtil.random(-5.99, 5.99));
-      } else if (this.room && this.room.other.successHistory.length > 9) {
-        targetPosition.x = (this.stage.width / 2) + Math.trunc(RandomUtil.random(-10.99, 10.99));
-      } else {
-        targetPosition.x = this.stage.width / 2;
-      }
+      // if (this.room && this.room.other.successHistory.length > 6 && this.room.other.successHistory.length <= 8) {
+      //   targetPosition.x = (this.stage.width / 2) + Math.trunc(RandomUtil.random(-1.99, 1.99));
+      // } else if (this.room && this.room.other.successHistory.length > 8 && this.room.other.successHistory.length <= 9) {
+      //   targetPosition.x = (this.stage.width / 2) + Math.trunc(RandomUtil.random(-5.99, 5.99));
+      // } else if (this.room && this.room.other.successHistory.length > 9) {
+      //   targetPosition.x = (this.stage.width / 2) + Math.trunc(RandomUtil.random(-10.99, 10.99));
+      // } else {
+      //   targetPosition.x = this.stage.width / 2;
+      // }
 
     //targetPosition
     //////update
@@ -60,21 +60,21 @@ export class WigMan extends AWObj {
       this.velocity.y = 0;
     }
 
-    if (this.room && this.room.other.successHistory.length >= 0 && this.room.other.successHistory.length <= 2) {
-      this.drawImage(context, this.img, this.x, this.y);
-    }else if (this.room && this.room.other.successHistory.length > 2 && this.room.other.successHistory.length <= 4) {
-      this.drawImage(context, this.ic_maincharacter_2Img, this.x, this.y);
-    }else if (this.room && this.room.other.successHistory.length > 4 && this.room.other.successHistory.length <= 6) {
-      this.drawImage(context, this.ic_maincharacter_3_1Img, this.x, this.y);
-    }else if (this.room && this.room.other.successHistory.length > 6 && this.room.other.successHistory.length <= 8) {
-      this.drawImage(context, this.ic_maincharacter_3_2Img, this.x, this.y);
-    }else if (this.room && this.room.other.successHistory.length > 8 && this.room.other.successHistory.length <= 9) {
-      this.drawImage(context, this.ic_maincharacter_4Img, this.x, this.y);
-    }else if (this.room && this.room.other.successHistory.length > 9) {
-      this.drawImage(context, this.ic_maincharacter_5Img, this.x, this.y);
-    }else {
-      this.drawImage(context, this.img, this.x, this.y);
-    }
+    // if (this.room && this.room.other.successHistory.length >= 0 && this.room.other.successHistory.length <= 2) {
+    //   this.drawImage(context, this.img, this.x, this.y);
+    // }else if (this.room && this.room.other.successHistory.length > 2 && this.room.other.successHistory.length <= 4) {
+    //   this.drawImage(context, this.ic_maincharacter_2Img, this.x, this.y);
+    // }else if (this.room && this.room.other.successHistory.length > 4 && this.room.other.successHistory.length <= 6) {
+    //   this.drawImage(context, this.ic_maincharacter_3_1Img, this.x, this.y);
+    // }else if (this.room && this.room.other.successHistory.length > 6 && this.room.other.successHistory.length <= 8) {
+    //   this.drawImage(context, this.ic_maincharacter_3_2Img, this.x, this.y);
+    // }else if (this.room && this.room.other.successHistory.length > 8 && this.room.other.successHistory.length <= 9) {
+    //   this.drawImage(context, this.ic_maincharacter_4Img, this.x, this.y);
+    // }else if (this.room && this.room.other.successHistory.length > 9) {
+    //   this.drawImage(context, this.ic_maincharacter_5Img, this.x, this.y);
+    // }else {
+    //   this.drawImage(context, this.img, this.x, this.y);
+    // }
   }
 
   onStart(data?: any) {

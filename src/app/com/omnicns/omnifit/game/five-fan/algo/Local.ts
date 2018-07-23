@@ -1,19 +1,25 @@
 import {Subscription} from 'rxjs/Subscription';
 import {DeviceManager} from '../../../drive/DeviceManager';
 import {Algo} from '../domain/Algo';
+import {RandomUtil} from '../../../../../../../../lib-typescript/com/omnicns/random/RandomUtil';
+import {interval} from 'rxjs/observable/interval';
 
 export class Local extends Algo {
   private concentrationSubscription: Subscription;
+  private concentration = 0;
+  private intervalSubscription: Subscription;
 
   constructor(uuid?: string, host?: string) {
     super(uuid, host);
   }
 
   onCreate(data?: any): Algo {
+    this.intervalSubscription = interval(2000).subscribe( (it) => {
+      this.headsetConcentration = Math.trunc(Math.max(0.5, this.concentration));
+      this.headsetConcentrationHistory.push(this.headsetConcentration);
+    });
     this.concentrationSubscription = DeviceManager.getInstance().headsetConcentrationSubscribe((concentration) => {
-      this.headsetConcentration = concentration;
-      this.headsetConcentrationHistory.push(concentration);
-      // console.log('---local---- ' + this.headsetConcentration)
+      this.concentration = concentration;
     });
     return this;
   }
@@ -35,11 +41,15 @@ export class Local extends Algo {
   }
 
   onStop(data?: any): Algo {
+    this.intervalSubscription.unsubscribe();
     this.concentrationSubscription.unsubscribe();
     return this;
   }
   onDestroy(data?: any): Algo {
+    this.intervalSubscription.unsubscribe();
     this.concentrationSubscription.unsubscribe();
     return this;
   }
+
+
 }

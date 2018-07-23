@@ -105,8 +105,8 @@ export class ResultPopup extends AWObj {
     context.fillStyle = '#ffb746';
     // context.fillStyle = gradient;
     context.lineWidth = 1;
-    context.fillText(this.room.other.successHistory.reduce((a, b) => a + b, 0).toLocaleString(), popup_x + 220, popup_y + 372);
-    context.strokeText(this.room.other.successHistory.reduce((a, b) => a + b, 0).toLocaleString(), popup_x + 220, popup_y + 372);
+    // context.fillText(this.room.other.successHistory.reduce((a, b) => a + b, 0).toLocaleString(), popup_x + 220, popup_y + 372);
+    // context.strokeText(this.room.other.successHistory.reduce((a, b) => a + b, 0).toLocaleString(), popup_x + 220, popup_y + 372);
     context.restore();
 
 

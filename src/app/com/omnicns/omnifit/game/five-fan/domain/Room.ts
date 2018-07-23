@@ -7,22 +7,19 @@ export class Room implements LifeCycle {
   public uuid: string;
   public status: string;
   public startCnt: number;
-  public endCnt: number;
   public local: Algo;
   public other: Algo;
 
-  constructor(uuid = '', status = 'wait', startCnt = Info.START_CNT, endCnt = Info.END_CNT, local?: Algo, other?: Algo) {
+  constructor(uuid = '', status = 'wait', startCnt = Info.START_CNT, local?: Algo, other?: Algo) {
     this.uuid = uuid;
     this.status = status;
     this.startCnt = startCnt;
-    this.endCnt = endCnt;
     this.local = local;
     this.other = other;
   }
 
   public resetCnt() {
     this.startCnt = Info.START_CNT;
-    this.endCnt = Info.END_CNT;
   }
 
   onCreate(...data: any[]) {
@@ -56,5 +53,8 @@ export class Room implements LifeCycle {
     if (this.other) {
       this.other.onDestroy(data);
     }
+  }
+  toString(): string {
+    return 'uuid: ' + this.uuid + ' status:' + this.status + ' startCnt:' + this.startCnt + ' local:' + this.local + ' other:' + this.other;
   }
 }

@@ -66,17 +66,15 @@ export class Timer extends AWObj {
     this.acceleration = new PointVector(0, 0);
 
     AWResourceManager.getInstance().resources('ready_startSound').play();
-    this.roomDetailSubscription = this.stage.eventObservable(AWStageEvent.EVENT_ROOM_DETAIL).filter( (it: Room) => it.status === 'wait' || it.status === 'run').subscribe( (room) => {
+    this.roomDetailSubscription = this.stage.eventObservable(AWStageEvent.EVENT_ROOM_DETAIL).filter( (it: Room) => it.status === 'wait' || it.status === 'run').subscribe( (room: Room) => {
       //console.log(room.status + ' ' + room.startCnt + '  ' + room.endCnt);
-      this.btnText = room.startCnt;
+      this.btnText = room.startCnt as string;
       this.sizejump = 100;
-      if (room.endCnt < Info.END_CNT) {
+      if (room.startCnt <= 0) {
         this.btnText = '';
       }
-      if (room.startCnt === 8) {
+      if (room.startCnt === 1) {
         AWResourceManager.getInstance().resources('applauseSound').play();
-      }
-      if (room.status === RoomStatusCode.RUN && room.endCnt === Info.END_CNT - 1) {
         AWResourceManager.getInstance().resources('startSound').play();
       }
     });

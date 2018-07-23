@@ -46,11 +46,11 @@ export class Fan extends AWObj {
 
     // context.translate(50 * this._order, this.stage.height / 2);
     // console.log('---' + this._order);
-    if (!ValidUtil.isNullOrUndefined(this.room) && this.room.other.successHistory.length >= this.order) {
-      this.mass += this.stepSize;
-    } else {
-      this.mass = 0;
-    }
+    // if (!ValidUtil.isNullOrUndefined(this.room) && this.room.other.successHistory.length >= this.order) {
+    //   this.mass += this.stepSize;
+    // } else {
+    //   this.mass = 0;
+    // }
 
     this.drawRotate(context, (c) => {
       this.drawImage(context, this.mass > 0 ? this.ic_fan_onImg : this.img, this.x, this.y - 7);
@@ -80,10 +80,10 @@ export class Fan extends AWObj {
     if (!ValidUtil.isNullOrUndefined(eventObservable)) {
       this.roomDetailSubscription = eventObservable.filter( (it) => !ValidUtil.isNullOrUndefined(it.local) && !ValidUtil.isNullOrUndefined(it.other) && it.status === 'run').subscribe( (room: Room) => {
         this.room = room;
-        if (this.room.other.successHistory.length === this.order) {
-          this.audio = AWResourceManager.getInstance().resources('fanSound');
-          this.audio.play();
-        }
+        // if (this.room.other.successHistory.length === this.order) {
+        //   this.audio = AWResourceManager.getInstance().resources('fanSound');
+        //   this.audio.play();
+        // }
       });
     }
   }

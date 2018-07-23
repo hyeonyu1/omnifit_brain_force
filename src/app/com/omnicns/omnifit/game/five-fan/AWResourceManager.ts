@@ -16,14 +16,16 @@ export class AWResourceManager implements LifeCycle {
   }
 
   private constructor() {
-    const intro_bgImg        = new Image(); intro_bgImg.src = 'assets/image/intro_bg.png';
+    const ic_track_01Img                 = new Image(); ic_track_01Img.src = 'assets/image/ic_track_01.png';
+    const ic_start_lineImg                 = new Image(); ic_start_lineImg.src = 'assets/image/ic_start_line.png';
+    const ic_finish_lineImg                 = new Image(); ic_finish_lineImg.src = 'assets/image/ic_finish_line.png';
+    const intro_bgImg                 = new Image(); intro_bgImg.src = 'assets/image/intro_bg.png';
     const btn_level_hard_norImg        = new Image(); btn_level_hard_norImg.src = 'assets/image/btn_level_hard_nor.png';
     const btn_level_normal_norImg        = new Image(); btn_level_normal_norImg.src = 'assets/image/btn_level_normal_nor.png';
     const btn_level_easy_norImg        = new Image(); btn_level_easy_norImg.src = 'assets/image/btn_level_easy_nor.png';
     const ic_intro_popuptextImg        = new Image(); ic_intro_popuptextImg.src = 'assets/image/ic_intro_popuptext.png';
     const ic_intro_popuptext2Img        = new Image(); ic_intro_popuptext2Img.src = 'assets/image/ic_intro_popuptext2.png';
     const ic_displayboardImg        = new Image(); ic_displayboardImg.src = 'assets/image/ic_displayboard.png';
-    const ic_shelfImg               = new Image(); ic_shelfImg.src = 'assets/image/ic_shelf.png';
     const ic_gage_medal_offImg      = new Image(); ic_gage_medal_offImg.src = 'assets/image/ic_gage_medal_off.png';
     const ic_gage_medal_onImg       = new Image(); ic_gage_medal_onImg.src = 'assets/image/ic_gage_medal_on.png';
     const ic_gageImg                = new Image(); ic_gageImg.src = 'assets/image/ic_gage.png';
@@ -93,7 +95,6 @@ export class AWResourceManager implements LifeCycle {
     this.setResources('ic_maincharacter_4Img', ic_maincharacter_4Img);
     this.setResources('ic_maincharacter_5Img', ic_maincharacter_5Img);
     this.setResources('ic_maincharacter_5Img', ic_maincharacter_5Img);
-    this.setResources('ic_shelfImg', ic_shelfImg);
     this.setResources('ic_fan_onImg', ic_fan_onImg);
     this.setResources('ic_fan_offImg', ic_fan_offImg);
     this.setResources('ic_fanframe_01Img', ic_fanframe_01Img);
@@ -148,6 +149,9 @@ export class AWResourceManager implements LifeCycle {
     this.setResources('btn_level_normal_norImg', btn_level_normal_norImg);
     this.setResources('btn_level_hard_norImg', btn_level_hard_norImg);
     this.setResources('intro_bgImg', intro_bgImg);
+    this.setResources('ic_track_01Img', ic_track_01Img);
+    this.setResources('ic_start_lineImg', ic_start_lineImg);
+    this.setResources('ic_finish_lineImg', ic_finish_lineImg);
 
     // this._resources.forEach((v, k) => {
     //   Observable.fromEvent(v, 'load').subscribe( (it: Event) => {

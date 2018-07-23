@@ -34,7 +34,8 @@ export class Score extends AWObj {
     headsetConcentration = Math.min(10, headsetConcentration);
     // console.log('head score ' + headsetConcentration)
     const gageBg = AWResourceManager.getInstance().resources('ic_gageImg');
-    const badge = (this.room && this.room.other.successHistory.length >= 10) ? AWResourceManager.getInstance().resources('ic_gage_medal_onImg') : AWResourceManager.getInstance().resources('ic_gage_medal_offImg');
+    const badge = AWResourceManager.getInstance().resources('ic_gage_medal_onImg');
+    // const badge = (this.room && this.room.other.successHistory.length >= 10) ? AWResourceManager.getInstance().resources('ic_gage_medal_onImg') : AWResourceManager.getInstance().resources('ic_gage_medal_offImg');
 
     const gageBgX = (this.stage.width / 2) - (gageBg.width / 2);
     const gageBgY = this.stage.height - gageBg.height - 10;

@@ -1,10 +1,12 @@
 import {Subscription} from 'rxjs/Subscription';
 import {DeviceManager} from '../../../drive/DeviceManager';
+import {interval} from 'rxjs/observable/interval';
 import {Algo} from '../domain/Algo';
+import {RandomUtil} from '../../../../../../../../lib-typescript/com/omnicns/random/RandomUtil';
 
 export class Level1 extends Algo {
 
-  private concentrationSubscription: Subscription;
+  private intervalSubscription: Subscription;
 
   constructor(uuid?: string, host?: string, name?: string) {
     super(uuid, host);
@@ -12,12 +14,9 @@ export class Level1 extends Algo {
   }
 
   onCreate(data?: any): Algo {
-    this.concentrationSubscription = DeviceManager.getInstance().headsetConcentrationSubscribe((concentration) => {
-      this.headsetConcentration = concentration;
-      this.headsetConcentrationHistory.push(concentration);
-      if (concentration >= 3 ) {
-        this.successHistory.push(concentration);
-      }
+    this.intervalSubscription = interval(2000).subscribe( (it) => {
+      this.headsetConcentration = Math.trunc(Math.max(0.5, RandomUtil.random(0, 4 + 1)));
+      this.headsetConcentrationHistory.push(this.headsetConcentration);
     });
     return this;
   }
@@ -39,11 +38,11 @@ export class Level1 extends Algo {
   }
 
   onStop(data?: any): Algo {
-    this.concentrationSubscription.unsubscribe();
+    this.intervalSubscription.unsubscribe();
     return this;
   }
   onDestroy(data?: any): Algo {
-    this.concentrationSubscription.unsubscribe();
+    this.intervalSubscription.unsubscribe();
     return this;
   }
 
