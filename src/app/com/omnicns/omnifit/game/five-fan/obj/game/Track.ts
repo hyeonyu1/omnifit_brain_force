@@ -101,11 +101,13 @@ export class Track extends AWObj {
   }
 
   onStart(data?: any) {
+    console.log('onstart Tack')
     this.room = undefined;
     this.beforePoint = new PointVector();
     this.currentPoint = new PointVector(); //초기 거리
     this.beforeOtherPoint = new PointVector();
     this.currentOtherPoint = new PointVector();  //초기 거리
+    this.characterPoint = new PointVector();
     // this.mass = 100;
     const eventObservable  = this.stage.eventObservable(AWStageEvent.EVENT_ROOM_DETAIL);
     if (!ValidUtil.isNullOrUndefined(eventObservable)) {

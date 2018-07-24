@@ -19,14 +19,14 @@ export class Timer extends AWObj {
   private btnText = '-';
   private roomDetailSubscription: Subscription;
   private sizejump = 100;
+  private room: Room;
   constructor(stage: AWStage, x: number, y: number, z: number, img?: HTMLImageElement) {
     super(stage, x, y, z, img);
     console.log('timer create');
   }
 
   onDraw(context: CanvasRenderingContext2D): void {
-    if (this.btnText.length <= 0) {
-      //this.stage.removeObjOnStopDestory(this);
+    if (ValidUtil.isNullOrUndefined(this.room) || (this.room && this.room.startCnt < 0)) {
       return;
     }
     const fontPT = this.sizejump--;
@@ -68,12 +68,10 @@ export class Timer extends AWObj {
     AWResourceManager.getInstance().resources('ready_startSound').play();
     this.roomDetailSubscription = this.stage.eventObservable(AWStageEvent.EVENT_ROOM_DETAIL).filter( (it: Room) => it.status === 'wait' || it.status === 'run').subscribe( (room: Room) => {
       //console.log(room.status + ' ' + room.startCnt + '  ' + room.endCnt);
+      this.room = room;
       this.btnText = String(room.startCnt); // as string;
       this.sizejump = 100;
-      if (room.startCnt <= 0) {
-        this.btnText = '';
-      }
-      if (room.startCnt === 1) {
+      if (room.startCnt === 0) {
         AWResourceManager.getInstance().resources('applauseSound').play();
         AWResourceManager.getInstance().resources('startSound').play();
       }

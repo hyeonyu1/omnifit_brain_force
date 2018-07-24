@@ -92,29 +92,26 @@ export class AWStageGame extends AWStage {
       // console.log(this.room.users.length + ' ' + this.room.startCnt + ' ' + this.room.endCnt);
       this.room.local = this.localAlgo;
       this.room.other = this.otherAlgo;
-      if (this.room.startCnt > 0) {
+      if (this.room.startCnt >= 0) {
         this.room.startCnt = (--this.room.startCnt);
         this.room.status = RoomStatusCode.WAIT;
+      }else if (this.room.status === RoomStatusCode.WAIT && this.room.startCnt < 0) { // 시간 다되서 END
         this.room.local.clearConcentration();
-        // this.room.local.clearSuccessHistory();
         this.room.other.clearConcentration();
-        // this.room.other.clearSuccessHistory();
-      // }else if (this.room.startCnt <= 0 && this.room.endCnt > 0 && this.room.other.successHistory.length >= 10) { // run중에 꽉차서 END
-      }else if (this.room.startCnt <= 0) { // 시간 다되서 END
         this.room.status = RoomStatusCode.RUN;
+      }else if (this.room.status === RoomStatusCode.RUN && this.room.local.headsetConcentrationHistory.reduce((a, b) => a + b, 0) >= Info.FINISH_TRACK_UNIT || this.room.other.headsetConcentrationHistory.reduce((a, b) => a + b, 0) >= Info.FINISH_TRACK_UNIT) {
+        this.room.status = RoomStatusCode.END;
+        this.room.local.onStop();
+        this.room.other.onStop();
       }
-      // }else if (this.room.startCnt <= 0 && this.room.endCnt <= 0) {
-      //   this.room.status = RoomStatusCode.END;
-      //   this.room.onStop();
-      // }
       this.roomDetailSubject.next(this.room);
     });
 
     this.roomDetailSubScription = this.roomDetailSubject.filter( (it) => !ValidUtil.isNullOrUndefined(it.local) && !ValidUtil.isNullOrUndefined(it.other)).subscribe( (room: Room) => {
       this.room = room;
-      // if ((RoomStatusCode.END === room.status) && ValidUtil.isNullOrUndefined(this.resultPopup)) {
-      //   this.resultPopup = this.pushResultPopupOnCreateStart(this.room);
-      // }
+      if ((RoomStatusCode.END === room.status) && ValidUtil.isNullOrUndefined(this.resultPopup)) {
+        this.resultPopup = this.pushResultPopupOnCreateStart(this.room);
+      }
     });
     // if (!ValidUtil.isNullOrUndefined(this.arm)) {
     //   this.removeObjOnStopDestory(this.arm);
@@ -129,6 +126,8 @@ export class AWStageGame extends AWStage {
     if (this.audio) {this.audio.pause(); this.audio.currentTime = 0; }
     this.localAlgo.onStop();
     this.otherAlgo.onStop();
+    this.localAlgo.clearConcentration();
+    this.otherAlgo.clearConcentration();
     this.objs.forEach((it) => it.onStop(data));
     if (this.resultPopup) {
       CollectionUtil.removeArrayItem(this.objs, this.resultPopup);

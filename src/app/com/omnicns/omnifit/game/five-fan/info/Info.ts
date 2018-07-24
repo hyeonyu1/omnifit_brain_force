@@ -7,5 +7,6 @@ export class Info {
     static readonly STEP_UNIT = 1000;
     static readonly DISPLAY_TRACK_WIDTH_UNIT = 10; //트랙 보여줄 m
     static readonly DISPLAY_TRACK_FLAG_UNIT = 10; //트랙 보여줄 m
+    static readonly FINISH_TRACK_UNIT = 100; // finish m
 
 }
