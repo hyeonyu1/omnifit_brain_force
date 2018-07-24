@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {AWResourceManager} from '../../AWResourceManager';
 import {Info} from '../../info/Info';
 import {PointVector} from '../../../../../../../../../lib-typescript/com/omnicns/math/PointVector';
+import {RoomStatusCode} from '../../code/RoomStatusCode';
 
 export class Track extends AWObj {
   private roomDetailSubscription: Subscription;
@@ -17,6 +18,8 @@ export class Track extends AWObj {
   private beforeOtherPoint = new PointVector();
   private ic_track_01Img = AWResourceManager.getInstance().resources('ic_track_01Img');
   private ic_start_lineImg = AWResourceManager.getInstance().resources('ic_start_lineImg');
+  private ic_finish_lineImg = AWResourceManager.getInstance().resources('ic_finish_lineImg');
+  private ic_boardImg = AWResourceManager.getInstance().resources('ic_boardImg');
   private characterReady: HTMLImageElement;
   private characterFinish: HTMLImageElement;
   private characterRun1: HTMLImageElement;
@@ -50,18 +53,19 @@ export class Track extends AWObj {
     }
 
     ////////// setting
-    const timeUnit = Info.STEP_UNIT / this.stage.clockInterval;
-    const mPerPixelUnit = this.stage.width / Info.DISPLAY_TRACK_WIDTH_UNIT;
-    const speed =  PointVector.sub(this.currentPoint, this.beforePoint);
+    // const timeUnit = Info.STEP_UNIT / this.stage.clockInterval;
+    const timeUnit = Info.STEP_UNIT / this.stage.clockInterval; // 몇번에 나눠서 그려야되는지.
+    const mPerPixelUnit = this.stage.width / Info.DISPLAY_TRACK_WIDTH_UNIT; //캔버스 width값에 따른  미터당 몇 픽셀인지.
+    const speed = PointVector.sub(this.currentPoint, this.beforePoint); // 전보다 몇미터 이동했는지
     const speedOther = PointVector.sub(this.currentOtherPoint, this.beforeOtherPoint);
-    const speedToPixel = speed.x * mPerPixelUnit;
+    const speedToPixel = speed.x * mPerPixelUnit; //전보다 몇미터 -> 몇 픽셀 이동했는지.
     const speedToPicelOther = speedOther.x * mPerPixelUnit;
     const pixel = speedToPixel / timeUnit;
     const pixelOther = speedToPicelOther / timeUnit;
     //////////////////////////
-    const mDiff = Math.max(Math.min(10, this.currentPoint.x - this.currentOtherPoint.x), -10);
-    const diffToPixel = mDiff * mPerPixelUnit;
-    const pixelDiff = diffToPixel / timeUnit;
+    const mDiff = Math.max(Math.min(10, this.currentPoint.x - this.currentOtherPoint.x), -10);  // 몇미터 상대방과 차이나는지.
+    const diffToPixel = mDiff * mPerPixelUnit; // 몇미터 -> 몇픽셀 차이나는지.
+    const pixelDiff = diffToPixel / timeUnit; // 몇번에 나눠서 그려야되는지.
     let characterImg = this.characterReady;
     if (this.currentPoint.x <= 0) {
       characterImg = this.characterReady;
@@ -70,14 +74,33 @@ export class Track extends AWObj {
     }else if (this.currentPoint.x >= 100) {
       characterImg = this.characterFinish;
     }
-    this.characterPoint.x = this.characterPoint.x || (this.stage.width / 2);
+    // this.characterPoint.x = this.characterPoint.x || (this.stage.width / 2) - 100;
+    this.characterPoint.x = this.characterPoint.x || characterImg.width / 2;
     this.characterPoint.y = ((this.stage.height / 2) + this.centerYMargin) - 50;
     this.characterPoint.add(pixelDiff);
-    this.characterPoint.x = Math.max(Math.min(this.stage.width -  (characterImg.width / 2), this.characterPoint.x), characterImg.width / 2);
+    this.characterPoint.x = Math.max(Math.min(this.stage.width - (characterImg.width / 2), this.characterPoint.x), characterImg.width / 2);
     this.drawImage(context, characterImg, this.characterPoint.x, this.characterPoint.y, 'center', 'middle');
     // console.log(speed + '-' + mUnit + '--' + speedToPixcel)
     // this.drawImage(context, this.ic_start_lineImg, this.mass -= this.currentDistance , 10, 'left', 'middle');
     // console.log('Track currentDistance' + this.currentDistance + ' room ' + this.room);
+
+    this.drawImage(context, this.ic_boardImg, this.characterPoint.x, this.characterPoint.y, 'center', 'middle');
+    const fontPT = 15;
+    context.strokeStyle = '#261813';
+    // context.shadowColor = '#000000';
+    // context.shadowOffsetX = -1;
+    // context.shadowOffsetY = -1;
+    context.font = fontPT + 'pt Multicolore';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    // const gradient = context.createLinearGradient(0, 0, 0, this.stage.height);
+    // gradient.addColorStop(0, '#1e4877');
+    // gradient.addColorStop(1, '#4584b4');
+    context.fillStyle = '#ffffff';
+    // context.fillStyle = gradient;
+    context.lineWidth = 1;
+    context.fillText(this.currentPoint.x.toLocaleString(),  this.characterPoint.x, this.characterPoint.y - 10);
+    // context.strokeText(this.currentPoint.x.toLocaleString(),  this.characterPoint.x, this.characterPoint.y - 10);
 
     if (ValidUtil.isNullOrUndefined(this.room)) { return; }
     //console.log('Track currentDistance' + this.currentDistance);
@@ -111,7 +134,7 @@ export class Track extends AWObj {
     // this.mass = 100;
     const eventObservable  = this.stage.eventObservable(AWStageEvent.EVENT_ROOM_DETAIL);
     if (!ValidUtil.isNullOrUndefined(eventObservable)) {
-      this.roomDetailSubscription = eventObservable.filter( (it) => !ValidUtil.isNullOrUndefined(it.local) && !ValidUtil.isNullOrUndefined(it.other) && it.status === 'run').subscribe( (room: Room) => {
+      this.roomDetailSubscription = eventObservable.filter( (it) => !ValidUtil.isNullOrUndefined(it.local) && !ValidUtil.isNullOrUndefined(it.other) && it.status === RoomStatusCode.RUN || it.status === RoomStatusCode.END).subscribe( (room: Room) => {
         this.room = room;
         this.beforePoint = this.currentPoint.get();
         this.beforeOtherPoint = this.currentOtherPoint.get();
@@ -122,7 +145,7 @@ export class Track extends AWObj {
           this.currentPoint.add(this.room.other.headsetConcentration);
           this.currentOtherPoint.add(this.room.local.headsetConcentration);
         }
-        console.log('cp: ' + this.currentPoint +  ' cop:' + this.currentPoint);
+        console.log('cp: ' + this.currentPoint +  ' cop:' + this.currentOtherPoint);
       });
     }
   }

@@ -95,7 +95,7 @@ export class AWStageGame extends AWStage {
       if (this.room.startCnt >= 0) {
         this.room.startCnt = (--this.room.startCnt);
         this.room.status = RoomStatusCode.WAIT;
-      }else if (this.room.status === RoomStatusCode.WAIT && this.room.startCnt < 0) { // 시간 다되서 END
+      }else if (this.room.status === RoomStatusCode.WAIT && this.room.startCnt <= 0) { // 시간 다되서 END
         this.room.local.clearConcentration();
         this.room.other.clearConcentration();
         this.room.status = RoomStatusCode.RUN;
