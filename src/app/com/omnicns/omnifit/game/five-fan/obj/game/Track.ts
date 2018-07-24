@@ -68,20 +68,8 @@ export class Track extends AWObj {
     const mDiff             = Math.max(Math.min(10, this.currentPoint.x - this.currentOtherPoint.x), -10);  // 몇미터 상대방과 차이나는지.
     const diffToPixel       = mDiff * metreToPixel; // 몇미터 -> 몇픽셀 차이나는지.
     const pixelDiff         = diffToPixel / timeUnit; // 몇번에 나눠서 그려야되는지.
-    let characterImg = this.characterReady;
-    if (this.currentPoint.x <= 0) {
-      characterImg = this.characterReady;
-    }else if (this.currentPoint.x > 0 && this.currentPoint.x < 100) {
-      characterImg = this.characterRun1;
-    }else if (this.currentPoint.x >= 100) {
-      characterImg = this.characterFinish;
-    }
-    // this.characterPoint.x = this.characterPoint.x || (this.stage.width / 2) - 100;
-    this.characterPoint.x = this.characterPoint.x || characterImg.width / 2;
-    this.characterPoint.y = ((this.stage.height / 2) + this.centerYMargin) - 50;
-    this.characterPoint.add(pixelDiff);
-    this.characterPoint.x = Math.max(Math.min(this.stage.width - (characterImg.width / 2), this.characterPoint.x), characterImg.width / 2);
-    this.drawImage(context, characterImg, this.characterPoint.x, this.characterPoint.y, 'center', 'middle');
+
+
 
     //mboard
     const fontPT          = 15;
@@ -107,14 +95,52 @@ export class Track extends AWObj {
     //   }
     // }
     const tM = Math.trunc(this.currentPoint.x);
-    for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {if (i % Info.DISPLAY_TRACK_FLAG_UNIT === 0) {
-      Observable.from(this.flagBoard).find((x) => x.z === i).subscribe((it) => {if (!ValidUtil.isNullOrUndefined(it)) {
-        const distPixcel = this.characterPoint.x + metreToPixel * (i - tM);
-        it.add(distPixcel / timeUnit);
-        this.drawImage(context, this.ic_boardImg, it.x, this.characterPoint.y, 'center', 'middle');
-        context.fillText(i.toLocaleString(), it.x, this.characterPoint.y - 10);
-      }});
-    }}
+    for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {
+      const flagPoint = new PointVector(this.characterPoint.x, this.characterPoint.y + 100);
+      if (i % Info.DISPLAY_TRACK_FLAG_UNIT === 0) {
+        flagPoint.x = this.characterPoint.x + metreToPixel * (i - tM);
+        if (i === 0) {
+          this.drawImage(context, this.ic_start_lineImg, flagPoint.x, trackY, 'left', 'middle');
+        }else if (i === Info.FINISH_TRACK_UNIT) {
+          this.drawImage(context, this.ic_finish_lineImg, flagPoint.x, trackY, 'left', 'middle');
+        }else {
+          this.drawImage(context, this.ic_boardImg, flagPoint.x, flagPoint.y, 'center', 'middle');
+          context.fillText(i.toLocaleString(),  flagPoint.x, flagPoint.y - 10);
+        }
+      }
+    }
+
+    let characterImg = this.characterReady;
+    if (this.currentPoint.x <= 0) {
+      characterImg = this.characterReady;
+    }else if (this.currentPoint.x > 0 && this.currentPoint.x < 100) {
+      if (new Date().getMilliseconds() / (15 - speed.x)) {
+        characterImg = this.characterRun1;
+      }else {
+        characterImg = this.characterRun2;
+      }
+    }else if (this.currentPoint.x >= 100) {
+      characterImg = this.characterFinish;
+    }
+    // this.characterPoint.x = this.characterPoint.x || (this.stage.width / 2) - 100;
+    this.characterPoint.x = this.characterPoint.x || characterImg.width / 2;
+    this.characterPoint.y = ((this.stage.height / 2) + this.centerYMargin) - 50;
+    this.characterPoint.add(pixelDiff);
+    this.characterPoint.x = Math.max(Math.min(this.stage.width - (characterImg.width / 2), this.characterPoint.x), characterImg.width / 2);
+    this.drawImage(context, characterImg, this.characterPoint.x, this.characterPoint.y, 'center', 'middle');
+    // const tM = Math.trunc(this.currentPoint.x);
+    // // for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {if (i % Info.DISPLAY_TRACK_FLAG_UNIT === 0) {
+    // for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {if (i === 0) {
+    //   Observable.from(this.flagBoard).find((x) => x.z === i).subscribe((it) => {if (!ValidUtil.isNullOrUndefined(it)) {
+    //     const distPixcel = this.characterPoint.x + metreToPixel * (i - tM);
+    //     // console.log(this.characterPoint.x +','+ metreToPixel +','+ (i - tM))
+    //     // console.log(distPixcel +','+ timeUnit)
+    //     // it.add(distPixcel / timeUnit);
+    //     it.add(distPixcel);
+    //     this.drawImage(context, this.ic_boardImg, it.x, this.characterPoint.y, 'center', 'middle');
+    //     context.fillText(i.toLocaleString(), it.x, this.characterPoint.y - 10);
+    //   }});
+    // }}
 
     // for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {
     //   const flagPoint = new PointVector();
