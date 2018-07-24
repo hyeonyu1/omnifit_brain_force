@@ -103,6 +103,7 @@ export class AWStageGame extends AWStage {
         this.room.status = RoomStatusCode.END;
         this.room.local.onStop();
         this.room.other.onStop();
+        this.localRoomIntervalSubScription.unsubscribe();
       }
       this.roomDetailSubject.next(this.room);
     });
