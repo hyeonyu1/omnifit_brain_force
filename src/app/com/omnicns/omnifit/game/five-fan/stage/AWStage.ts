@@ -12,7 +12,7 @@ export abstract class AWStage extends Stage implements LifeCycle, ViewInterface 
 
   private _objs: AWObj[];
   private clock: Observable<number>;
-  protected clockInterval = 30;
+  private _clockInterval = 30;
   private _canvas: HTMLCanvasElement;
   private _bufferCanvas: HTMLCanvasElement;
   private reSizeSubscription: Subscription;
@@ -39,6 +39,15 @@ export abstract class AWStage extends Stage implements LifeCycle, ViewInterface 
 
   get bufferCanvas(): HTMLCanvasElement {
     return this._bufferCanvas;
+  }
+
+
+  get clockInterval(): number {
+    return this._clockInterval;
+  }
+
+  set clockInterval(value: number) {
+    this._clockInterval = value;
   }
 
   flushBufferToCanvas() {
@@ -97,7 +106,7 @@ export abstract class AWStage extends Stage implements LifeCycle, ViewInterface 
 
   protected clockIntervalSubscribe(next: (value: number) => void): Subscription {
     if (ValidUtil.isNullOrUndefined(this.clock)) {
-      this.clock = interval(this.clockInterval);
+      this.clock = interval(this._clockInterval);
     }
     return this.clock.subscribe(next);
   }

@@ -68,7 +68,7 @@ export class Timer extends AWObj {
     AWResourceManager.getInstance().resources('ready_startSound').play();
     this.roomDetailSubscription = this.stage.eventObservable(AWStageEvent.EVENT_ROOM_DETAIL).filter( (it: Room) => it.status === 'wait' || it.status === 'run').subscribe( (room: Room) => {
       //console.log(room.status + ' ' + room.startCnt + '  ' + room.endCnt);
-      this.btnText = room.startCnt as string;
+      this.btnText = String(room.startCnt); // as string;
       this.sizejump = 100;
       if (room.startCnt <= 0) {
         this.btnText = '';

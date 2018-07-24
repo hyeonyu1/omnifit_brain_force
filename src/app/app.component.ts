@@ -140,10 +140,28 @@ export class AppComponent implements OnInit, AfterViewInit {
     const irail = new Rail(stageIntro, 0, 0, 0, AWResourceManager.getInstance().resources('ic_displayboardImg'));
     irail.index = 50;
     stageIntro.pushObj(irail);
-
-    const itrack = new Track(stageIntro, 0, 0, 0, AWResourceManager.getInstance().resources('ic_track_01Img'));
+    const itrack = new Track(stageIntro,
+      AWResourceManager.getInstance().resources('ic_track_character1_01Img'),
+      AWResourceManager.getInstance().resources('ic_track_character1_02Img'),
+      AWResourceManager.getInstance().resources('ic_track_character1_03Img'),
+      AWResourceManager.getInstance().resources('ic_track_character1_04Img'),
+      AWResourceManager.getInstance().resources('ic_track_character1_05Img'),
+      AWResourceManager.getInstance().resources('ic_track_character1_06Img'),
+      100);
+    itrack.id = 'local';
     itrack.index = 100;
     stageIntro.pushObj(itrack);
+    const itrack2 = new Track(stageIntro,
+      AWResourceManager.getInstance().resources('ic_track_character2_01Img'),
+      AWResourceManager.getInstance().resources('ic_track_character2_02Img'),
+      AWResourceManager.getInstance().resources('ic_track_character2_03Img'),
+      AWResourceManager.getInstance().resources('ic_track_character2_04Img'),
+      AWResourceManager.getInstance().resources('ic_track_character2_05Img'),
+      AWResourceManager.getInstance().resources('ic_track_character2_06Img'),
+      250);
+    itrack2.id = 'other';
+    itrack2.index = 101;
+    stageIntro.pushObj(itrack2);
 
     // let ifanOrder = 1;
     // for (let i = 500; i <= 509; i++) {
@@ -238,9 +256,28 @@ export class AppComponent implements OnInit, AfterViewInit {
     rail.index = 50;
     stageGame.pushObj(rail);
 
-    const track = new Track(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('ic_track_01Img'));
+    const track = new Track(stageGame,
+      AWResourceManager.getInstance().resources('ic_track_character1_01Img'),
+      AWResourceManager.getInstance().resources('ic_track_character1_02Img'),
+      AWResourceManager.getInstance().resources('ic_track_character1_03Img'),
+      AWResourceManager.getInstance().resources('ic_track_character1_04Img'),
+      AWResourceManager.getInstance().resources('ic_track_character1_05Img'),
+      AWResourceManager.getInstance().resources('ic_track_character1_06Img'),
+      100);
+    track.id = 'local';
     track.index = 100;
     stageGame.pushObj(track);
+    const track2 = new Track(stageGame,
+      AWResourceManager.getInstance().resources('ic_track_character2_01Img'),
+      AWResourceManager.getInstance().resources('ic_track_character2_02Img'),
+      AWResourceManager.getInstance().resources('ic_track_character2_03Img'),
+      AWResourceManager.getInstance().resources('ic_track_character2_04Img'),
+      AWResourceManager.getInstance().resources('ic_track_character2_05Img'),
+      AWResourceManager.getInstance().resources('ic_track_character2_06Img'),
+      250);
+    track2.id = 'other';
+    track2.index = 101;
+    stageGame.pushObj(track2);
 
     // let fanOrder = 1;
     // for (let i = 500; i <= 509; i++) {

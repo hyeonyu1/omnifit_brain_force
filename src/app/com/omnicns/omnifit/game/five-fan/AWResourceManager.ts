@@ -16,6 +16,18 @@ export class AWResourceManager implements LifeCycle {
   }
 
   private constructor() {
+    const ic_track_character1_01Img                 = new Image(); ic_track_character1_01Img.src = 'assets/image/ic_track_character1_01.png';
+    const ic_track_character1_02Img                 = new Image(); ic_track_character1_02Img.src = 'assets/image/ic_track_character1_02.png';
+    const ic_track_character1_03Img                 = new Image(); ic_track_character1_03Img.src = 'assets/image/ic_track_character1_03.png';
+    const ic_track_character1_04Img                 = new Image(); ic_track_character1_04Img.src = 'assets/image/ic_track_character1_04.png';
+    const ic_track_character1_05Img                 = new Image(); ic_track_character1_05Img.src = 'assets/image/ic_track_character1_05.png';
+    const ic_track_character1_06Img                 = new Image(); ic_track_character1_06Img.src = 'assets/image/ic_track_character1_06.png';
+    const ic_track_character2_01Img                 = new Image(); ic_track_character2_01Img.src = 'assets/image/ic_track_character2_01.png';
+    const ic_track_character2_02Img                 = new Image(); ic_track_character2_02Img.src = 'assets/image/ic_track_character2_02.png';
+    const ic_track_character2_03Img                 = new Image(); ic_track_character2_03Img.src = 'assets/image/ic_track_character2_03.png';
+    const ic_track_character2_04Img                 = new Image(); ic_track_character2_04Img.src = 'assets/image/ic_track_character2_04.png';
+    const ic_track_character2_05Img                 = new Image(); ic_track_character2_05Img.src = 'assets/image/ic_track_character2_05.png';
+    const ic_track_character2_06Img                 = new Image(); ic_track_character2_06Img.src = 'assets/image/ic_track_character2_06.png';
     const ic_track_01Img                 = new Image(); ic_track_01Img.src = 'assets/image/ic_track_01.png';
     const ic_start_lineImg                 = new Image(); ic_start_lineImg.src = 'assets/image/ic_start_line.png';
     const ic_finish_lineImg                 = new Image(); ic_finish_lineImg.src = 'assets/image/ic_finish_line.png';
@@ -152,6 +164,18 @@ export class AWResourceManager implements LifeCycle {
     this.setResources('ic_track_01Img', ic_track_01Img);
     this.setResources('ic_start_lineImg', ic_start_lineImg);
     this.setResources('ic_finish_lineImg', ic_finish_lineImg);
+    this.setResources('ic_track_character1_01Img', ic_track_character1_01Img);
+    this.setResources('ic_track_character1_02Img', ic_track_character1_02Img);
+    this.setResources('ic_track_character1_03Img', ic_track_character1_03Img);
+    this.setResources('ic_track_character1_04Img', ic_track_character1_04Img);
+    this.setResources('ic_track_character1_05Img', ic_track_character1_05Img);
+    this.setResources('ic_track_character1_06Img', ic_track_character1_06Img);
+    this.setResources('ic_track_character2_01Img', ic_track_character2_01Img);
+    this.setResources('ic_track_character2_02Img', ic_track_character2_02Img);
+    this.setResources('ic_track_character2_03Img', ic_track_character2_03Img);
+    this.setResources('ic_track_character2_04Img', ic_track_character2_04Img);
+    this.setResources('ic_track_character2_05Img', ic_track_character2_05Img);
+    this.setResources('ic_track_character2_06Img', ic_track_character2_06Img);
 
     // this._resources.forEach((v, k) => {
     //   Observable.fromEvent(v, 'load').subscribe( (it: Event) => {
