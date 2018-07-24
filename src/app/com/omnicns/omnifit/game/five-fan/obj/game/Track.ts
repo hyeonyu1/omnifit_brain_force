@@ -94,21 +94,35 @@ export class Track extends AWObj {
     //     context.fillText(i.toLocaleString(),  flagPoint.x, this.characterPoint.y - 10);
     //   }
     // }
+    // const tM = Math.trunc(this.currentPoint.x);
+    // for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {
+    //   const flagPoint = new PointVector(this.characterPoint.x, this.characterPoint.y + 100);
+    //   if (i % Info.DISPLAY_TRACK_FLAG_UNIT === 0) {
+    //     // flagPoint.x = (this.characterPoint.x + metreToPixel * (i - tM)) / timeUnit;
+    //     flagPoint.x = (this.characterPoint.x + metreToPixel * (i - tM));
+    //     if (i === 0) {
+    //       this.drawImage(context, this.ic_start_lineImg, flagPoint.x, trackY, 'left', 'middle');
+    //     }else if (i === Info.FINISH_TRACK_UNIT) {
+    //       this.drawImage(context, this.ic_finish_lineImg, flagPoint.x, trackY, 'left', 'middle');
+    //     }else {
+    //       this.drawImage(context, this.ic_boardImg, flagPoint.x, flagPoint.y, 'center', 'middle');
+    //       context.fillText(i.toLocaleString(),  flagPoint.x, flagPoint.y - 10);
+    //     }
+    //   }
+    // }
     const tM = Math.trunc(this.currentPoint.x);
-    for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {
-      const flagPoint = new PointVector(this.characterPoint.x, this.characterPoint.y + 100);
-      if (i % Info.DISPLAY_TRACK_FLAG_UNIT === 0) {
-        flagPoint.x = this.characterPoint.x + metreToPixel * (i - tM);
-        if (i === 0) {
-          this.drawImage(context, this.ic_start_lineImg, flagPoint.x, trackY, 'left', 'middle');
-        }else if (i === Info.FINISH_TRACK_UNIT) {
-          this.drawImage(context, this.ic_finish_lineImg, flagPoint.x, trackY, 'left', 'middle');
-        }else {
-          this.drawImage(context, this.ic_boardImg, flagPoint.x, flagPoint.y, 'center', 'middle');
-          context.fillText(i.toLocaleString(),  flagPoint.x, flagPoint.y - 10);
-        }
-      }
-    }
+    for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {if (i % Info.DISPLAY_TRACK_FLAG_UNIT === 0) {
+    // for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {if (i === 0) {
+      Observable.from(this.flagBoard).find((x) => x.z === i).subscribe((it) => {if (!ValidUtil.isNullOrUndefined(it)) {
+        const distPixcel = this.characterPoint.x + metreToPixel * (i - tM);
+        // console.log(this.characterPoint.x +','+ metreToPixel +','+ (i - tM))
+        // console.log(distPixcel +','+ timeUnit)
+        it.sub(distPixcel / timeUnit);
+        // it.add(distPixcel);
+        this.drawImage(context, this.ic_boardImg, it.x, this.characterPoint.y, 'center', 'middle');
+        context.fillText(i.toLocaleString(), it.x, this.characterPoint.y - 10);
+      }});
+    }}
 
     let characterImg = this.characterReady;
     if (this.currentPoint.x <= 0) {
@@ -128,19 +142,7 @@ export class Track extends AWObj {
     this.characterPoint.add(pixelDiff);
     this.characterPoint.x = Math.max(Math.min(this.stage.width - (characterImg.width / 2), this.characterPoint.x), characterImg.width / 2);
     this.drawImage(context, characterImg, this.characterPoint.x, this.characterPoint.y, 'center', 'middle');
-    // const tM = Math.trunc(this.currentPoint.x);
-    // // for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {if (i % Info.DISPLAY_TRACK_FLAG_UNIT === 0) {
-    // for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {if (i === 0) {
-    //   Observable.from(this.flagBoard).find((x) => x.z === i).subscribe((it) => {if (!ValidUtil.isNullOrUndefined(it)) {
-    //     const distPixcel = this.characterPoint.x + metreToPixel * (i - tM);
-    //     // console.log(this.characterPoint.x +','+ metreToPixel +','+ (i - tM))
-    //     // console.log(distPixcel +','+ timeUnit)
-    //     // it.add(distPixcel / timeUnit);
-    //     it.add(distPixcel);
-    //     this.drawImage(context, this.ic_boardImg, it.x, this.characterPoint.y, 'center', 'middle');
-    //     context.fillText(i.toLocaleString(), it.x, this.characterPoint.y - 10);
-    //   }});
-    // }}
+    context.fillText(this.currentPoint.x.toLocaleString(),  this.characterPoint.x, this.characterPoint.y);
 
     // for (let i = Math.max(tM - 10, 0); i <= Math.min(tM + 10, Info.FINISH_TRACK_UNIT); i++) {
     //   const flagPoint = new PointVector();
