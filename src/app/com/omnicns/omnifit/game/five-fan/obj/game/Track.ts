@@ -10,7 +10,7 @@ import {PointVector} from '../../../../../../../../../lib-typescript/com/omnicns
 import {RoomStatusCode} from '../../code/RoomStatusCode';
 import {Observable} from 'rxjs/Observable';
 import {ObjImg} from '../../../../../../../../../lib-typescript/com/omnicns/graphics/ObjImg';
-export class Flag extends ObjImg {
+export class MoveObjImg extends ObjImg {
   private _velocity = new PointVector();
   get velocity() {
     return this._velocity;
@@ -37,11 +37,11 @@ export class Track extends AWObj {
   private characterTire1: HTMLImageElement;
   private characterTire2: HTMLImageElement;
   private centerYMargin = 0;
-  private flagBoard = new Array<Flag>();
+  private flagBoard = new Array<MoveObjImg>();
   private metreToPixel: number;
   private timeUnit: number;
   private shiftStart = 60;
-  private character = new ObjImg();
+  private character = new MoveObjImg();
   private resizeSubscription: Subscription;
   private velocity: PointVector;
   constructor(stage: AWStage, characterReady: HTMLImageElement, characterRun1: HTMLImageElement, characterRun2: HTMLImageElement, characterFinish: HTMLImageElement, characterTire1: HTMLImageElement, characterTire2: HTMLImageElement, centerYMargin = 0) {
@@ -95,42 +95,28 @@ export class Track extends AWObj {
     const pixelDiff         = diffToPixel / this.timeUnit; // 몇번에 나눠서 그려야되는지.
 
 
-    this.flagBoard.forEach((it) => {
-      const targetPosition = it.get();
-      targetPosition.y = (this.stage.height / 2) + this.centerYMargin;
-      if (it.index > 0 && it.index < Info.FINISH_TRACK_UNIT) {
-        targetPosition.y += 50;
-      }
-      targetPosition.x = this.metreToPixel * it.index + this.shiftStart;
-      targetPosition.x -= this.currentPoint.x * this.metreToPixel;
-      it.sub(pixel);
-      it.y = targetPosition.y;
-      // it.sub(speedToPixel);
-      // it.y = targetPosition.y;
-      // const dir = PointVector.sub(targetPosition, it);
-      // dir.normalize(); dir.mult(speedToPixel);
-      // it.velocity.add(dir);
-      // it.velocity.limit(2);
-      // const oldPosition = it.get();
-      // it.add(it.velocity);
-      // const oldCheck = PointVector.sub(oldPosition, targetPosition);
-      // const check = PointVector.sub(it, targetPosition);
-      // if (oldCheck.x <= 0 && check.x > 0 || oldCheck.x >= 0 && check.x < 0) {
-      //   it.x = targetPosition.x;
-      //   it.velocity.x = 0;
-      // }
-      // if (oldCheck.y <= 0 && check.y > 0 || oldCheck.y >= 0 && check.y < 0) {
-      //   it.y = targetPosition.y;
-      //   it.velocity.x = 0;
-      // }
-      it.drawImage(context, it.img);
-      context.fillText(it.index.toLocaleString(),  it.x, it.y - 10);
-    });
-
-
     //character
     this.character.img = this.characterReady;
-    this.character.y = ((this.stage.height / 2) + this.centerYMargin) - 50;
+    const targetCposition = this.character.get();
+    targetCposition.y = ((this.stage.height / 2) + this.centerYMargin) - 50;
+    targetCposition.x -= diffToPixel;
+    targetCposition.x = Math.max(Math.min(this.stage.width - (this.character.img.width), this.character.x), this.shiftStart);
+    const dirC = PointVector.sub(targetCposition, this.character);
+    this.character.normalize(); dirC.mult(new PointVector(0.2, 0.2, 0));
+    this.character.velocity.add(dirC);
+    // it.velocity.limit(2);
+    const oldPosition = this.character.get();
+    this.character.add(this.character.velocity);
+    const oldCheck = PointVector.sub(oldPosition, targetCposition);
+    const check = PointVector.sub(this.character, targetCposition);
+    if (oldCheck.x <= 0 && check.x > 0 || oldCheck.x >= 0 && check.x < 0) {
+      this.character.x = targetCposition.x;
+      this.character.velocity.x = 0;
+    }
+    if (oldCheck.y <= 0 && check.y > 0 || oldCheck.y >= 0 && check.y < 0) {
+      this.character.y = targetCposition.y;
+      this.character.velocity.x = 0;
+    }
     if (this.currentPoint.x <= 0) {
       this.character.img = this.characterReady; this.character.imgAlign = 'center'; this.character.imgBaseline = 'middle';
       // this.character.x = this.shiftStart;
@@ -141,16 +127,48 @@ export class Track extends AWObj {
       this.character.img = this.characterFinish;
       this.character.imgAlign = 'left'; this.character.imgBaseline = 'middle';
     }
-    // const startMargin = characterImg.width / 2;
-    // this.characterPoint.x = this.characterPoint.x || startMargin;
-    // const oldCharacterX = this.characterPoint.x;
-    // if (omDiff > 100) {
-    this.character.add(pixelDiff);
+    //this.character.add(pixelDiff);
+    const oldChracterX = this.character.x;
     this.character.x = Math.max(Math.min(this.stage.width - (this.character.img.width), this.character.x), this.shiftStart);
-    this.character.drawImage(context);
-    // }
-    // this.characterPoint.x = Math.min(this.stage.width - (characterImg.width / 2), this.characterPoint.x);
 
+    //board
+    this.flagBoard.forEach((it) => {
+      const targetPosition = it.get();
+      targetPosition.y = (this.stage.height / 2) + this.centerYMargin;
+      if (it.index > 0 && it.index < Info.FINISH_TRACK_UNIT) {
+        targetPosition.y += 50;
+      }
+      targetPosition.x = this.metreToPixel * it.index + this.shiftStart;
+      targetPosition.x -= this.currentPoint.x * this.metreToPixel;
+      // it.sub(pixel);
+      // if (omDiff > 10) {
+      //   it.add(oldChracterX - this.character.x);
+      // }
+      // it.sub(pixel);
+      // it.y = targetPosition.y;
+      //---------
+      const dir = PointVector.sub(targetPosition, it);
+      dir.normalize(); dir.mult(new PointVector(0.2, 0.2, 0));
+      it.velocity.add(dir);
+      // it.velocity.limit(2);
+      const oldPosition = it.get();
+      it.add(it.velocity);
+      const oldCheck = PointVector.sub(oldPosition, targetPosition);
+      const check = PointVector.sub(it, targetPosition);
+      if (oldCheck.x <= 0 && check.x > 0 || oldCheck.x >= 0 && check.x < 0) {
+        it.x = targetPosition.x;
+        it.velocity.x = 0;
+      }
+      if (oldCheck.y <= 0 && check.y > 0 || oldCheck.y >= 0 && check.y < 0) {
+        it.y = targetPosition.y;
+        it.velocity.x = 0;
+      }
+      it.drawImage(context);
+      context.fillText(it.index.toLocaleString(),  it.x, it.y - 10);
+    });
+
+
+    this.character.drawImage(context);
     context.fillText(this.currentPoint.x.toLocaleString(), 20, trackY - 10);
 
   }
@@ -168,7 +186,7 @@ export class Track extends AWObj {
   }
 
   onStart(data?: any) {
-    console.log('onstart Tack')
+    console.log('onstart Tack');
     this.velocity = new PointVector(0, 0);
     this.set(0, this.stage.height / 2 + this.centerYMargin);
     this.room = undefined;
@@ -176,14 +194,15 @@ export class Track extends AWObj {
     this.currentPoint = new PointVector(); //초기 거리
     this.beforeOtherPoint = new PointVector();
     this.currentOtherPoint = new PointVector();  //초기 거리
-    this.character = new ObjImg();
-    this.flagBoard = new Array<Flag>();
+    this.character = new MoveObjImg(0, ((this.stage.height / 2) + this.centerYMargin) - 50);
+    this.flagBoard = new Array<MoveObjImg>();
     this.metreToPixel = this.stage.width / Info.DISPLAY_TRACK_WIDTH_UNIT; //캔버스 width값에 따른  미터당 몇 픽셀인지.
     this.timeUnit = Info.STEP_UNIT / this.stage.clockInterval;
+    console.log(Info.STEP_UNIT + ' ' + this.stage.clockInterval)
     for (let i = 0; i <= Info.FINISH_TRACK_UNIT; i++) {
       if (i % Info.DISPLAY_TRACK_FLAG_UNIT === 0) {
       // if (i % Info.DISPLAY_TRACK_FLAG_UNIT === 0 && i === 6) {
-        const o = new Flag(); o.index = i;
+        const o = new MoveObjImg(); o.index = i;
         this.flagBoard.push(this.resetImgPositionFlagObj(o));
       }
     }
@@ -222,7 +241,7 @@ export class Track extends AWObj {
   onDestroy(data?: any) {
   }
 
-  private resetImgPositionFlagObj(objImg: Flag) {
+  private resetImgPositionFlagObj(objImg: MoveObjImg) {
     const centerY = (this.stage.height / 2) + this.centerYMargin;
     // objImg.index = meter; //index를 meter로 쓴다.
     if (objImg.index === 0) {

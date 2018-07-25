@@ -12,7 +12,7 @@ export abstract class AWStage extends Stage implements LifeCycle, ViewInterface 
 
   private _objs: AWObj[];
   private clock: Observable<number>;
-  private _clockInterval = 30;
+  private _clockInterval = 20;
   private _canvas: HTMLCanvasElement;
   private _bufferCanvas: HTMLCanvasElement;
   private reSizeSubscription: Subscription;

@@ -89,6 +89,7 @@ export class AWStageGame extends AWStage {
     this.resizeSubscription = this.canvasEventSubscribe('resize', (event: Event) => this.onDraw());
 
     this.localRoomIntervalSubScription = interval(Info.STEP_UNIT).subscribe( (it) => {
+    // this.localRoomIntervalSubScription = interval(10).subscribe( (it) => {
       // console.log(this.room.users.length + ' ' + this.room.startCnt + ' ' + this.room.endCnt);
       this.room.local = this.localAlgo;
       this.room.other = this.otherAlgo;
