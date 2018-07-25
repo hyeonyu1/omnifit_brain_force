@@ -15,8 +15,11 @@ export class Local extends Algo {
 
   onCreate(data?: any): Algo {
     this.intervalSubscription = interval(1000).subscribe( (it) => {
-      this.headsetConcentration = Math.trunc(Math.max(0.5, this.concentration)) / 5;
+      // this.headsetConcentration = Math.trunc(Math.max(0.5, this.concentration));
+      this.headsetConcentration = Math.trunc(this.concentration);
       this.headsetConcentrationHistory.push(this.headsetConcentration);
+      this.success = Math.max(0.2, this.headsetConcentration / 5);
+      this.successHistory.push(this.success);
     });
     this.concentrationSubscription = DeviceManager.getInstance().headsetConcentrationSubscribe((concentration) => {
       this.concentration = concentration;

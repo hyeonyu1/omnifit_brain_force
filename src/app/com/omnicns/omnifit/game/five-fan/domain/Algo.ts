@@ -6,6 +6,8 @@ export abstract class Algo implements LifeCycle {
   public host: string;
   public headsetConcentration = 0;
   public headsetConcentrationHistory = new Array<number>();
+  public success = 0;
+  public successHistory = new Array<number>();
   constructor(uuid = 'local', host = 'local') {
     this.uuid = uuid;
     this.host = host;
@@ -14,6 +16,10 @@ export abstract class Algo implements LifeCycle {
     this.headsetConcentration = 0;
     this.headsetConcentrationHistory.length = 0;
     this.headsetConcentrationHistory = new Array<number>();
+  }
+  public clearSuccessHistory() {
+    this.successHistory.length = 0;
+    this.successHistory = new Array<number>();
   }
   abstract onCreate(...data: any[]);
 
@@ -30,6 +36,6 @@ export abstract class Algo implements LifeCycle {
   abstract onStop(data?: any);
 
   toString(): string {
-    return 'uuid: ' + this.uuid + ' name:' + this.name + ' host:' + this.host + ' headsetConcentration:' + this.headsetConcentration + ' headsetConcentrationHistory:' + this.headsetConcentrationHistory;
+    return 'uuid: ' + this.uuid + ' name:' + this.name + ' host:' + this.host + ' headsetConcentration:' + this.headsetConcentration + ' headsetConcentrationHistory:' + this.headsetConcentrationHistory + 'success:' + this.success + 'successHistory:' + this.successHistory;
   }
 }

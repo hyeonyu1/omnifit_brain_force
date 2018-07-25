@@ -95,11 +95,13 @@ export class AWStageGame extends AWStage {
       if (this.room.startCnt >= 0) {
         this.room.startCnt = (--this.room.startCnt);
         this.room.status = RoomStatusCode.WAIT;
-      }else if (this.room.status === RoomStatusCode.WAIT && this.room.startCnt <= 0) { // 시간 다되서 END
+      }else if (this.room.status === RoomStatusCode.WAIT && this.room.startCnt <= 0) { // 처음 카운트 다운끝나고 RUN
         this.room.local.clearConcentration();
         this.room.other.clearConcentration();
+        this.room.local.clearSuccessHistory();
+        this.room.other.clearSuccessHistory();
         this.room.status = RoomStatusCode.RUN;
-      }else if (this.room.status === RoomStatusCode.RUN && this.room.local.headsetConcentrationHistory.reduce((a, b) => a + b, 0) >= Info.FINISH_TRACK_UNIT || this.room.other.headsetConcentrationHistory.reduce((a, b) => a + b, 0) >= Info.FINISH_TRACK_UNIT) {
+      }else if (this.room.status === RoomStatusCode.RUN && this.room.local.successHistory.reduce((a, b) => a + b, 0) > Info.FINISH_TRACK_UNIT || this.room.other.successHistory.reduce((a, b) => a + b, 0) > Info.FINISH_TRACK_UNIT) {
         this.room.status = RoomStatusCode.END;
         this.room.local.onStop();
         this.room.other.onStop();

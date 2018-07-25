@@ -14,8 +14,10 @@ export class Level3 extends Algo {
 
   onCreate(data?: any): Algo {
     this.intervalSubscription = interval(1000).subscribe( (it) => {
-      this.headsetConcentration = Math.trunc(Math.max(0.5, RandomUtil.random(6, 10 + 1))) / 5;
+      this.headsetConcentration = Math.trunc(RandomUtil.random(6, 10 + 1));
       this.headsetConcentrationHistory.push(this.headsetConcentration);
+      this.success = Math.max(0.2, this.headsetConcentration / 5);
+      this.successHistory.push(this.success);
     });
     return this;
   }
