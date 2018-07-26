@@ -18,7 +18,6 @@ export class Level3 extends Algo {
       this.headsetConcentrationHistory.push(this.headsetConcentration);
       // this.success = Math.max(0.2, this.headsetConcentration / 5);
       this.success = this.headsetConcentration / 5;
-      this.success = this.headsetConcentration;
       // this.success = this.headsetConcentration;
       this.successHistory.push(this.success);
     });

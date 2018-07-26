@@ -1,6 +1,8 @@
 import {Info} from '../info/Info';
 import {Algo} from './Algo';
 import {LifeCycle} from '../../../../../../../../lib-typescript/com/omnicns/event/life/LifeCycle';
+import {AWObj} from '../obj/AWObj';
+import {Track} from '../obj/game/Track';
 
 export class Room implements LifeCycle {
 
@@ -9,6 +11,7 @@ export class Room implements LifeCycle {
   public startCnt: number;
   public local: Algo;
   public other: Algo;
+  // public stopParameter: Track;
 
   constructor(uuid = '', status = 'wait', startCnt = Info.START_CNT, local?: Algo, other?: Algo) {
     this.uuid = uuid;
@@ -37,7 +40,8 @@ export class Room implements LifeCycle {
   onStart(data?: any) {
   }
 
-  onStop(data?: any) {
+  onStop(data?: Track) {
+    // this.stopParameter = data;
     if (this.local) {
       this.local.onStop(data);
     }

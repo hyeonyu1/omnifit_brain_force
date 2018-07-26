@@ -34,8 +34,9 @@ export class ResultPopup extends AWObj {
   private btn_result_popup_exit_norImg = AWResourceManager.getInstance().resources('btn_result_popup_exit_norImg');
   private ic_result_popup_firecrackerImg = AWResourceManager.getInstance().resources('ic_result_popup_firecrackerImg');
   private ic_result_popup_characterImg = AWResourceManager.getInstance().resources('ic_result_popup_characterImg');
+  private ic_result_popup_medal_1stImg = AWResourceManager.getInstance().resources('ic_result_popup_medal_1stImg');
+  private ic_result_popup_medal_2ndImg = AWResourceManager.getInstance().resources('ic_result_popup_medal_2ndImg');
 
-  private roomDetailSubscription: Subscription;
   private targetPosition: PointVector;
   private hitArea: Rect;
   private hitExitArea: Rect;
@@ -76,6 +77,10 @@ export class ResultPopup extends AWObj {
       this.velocity.y = 0;
     }
 
+    //data setting
+    const localSum = this.room.local.headsetConcentrationHistory.reduce((a, b) => a + b, 0);
+    const otherSum = this.room.other.headsetConcentrationHistory.reduce((a, b) => a + b, 0);
+
     //draw popup background
     const popup_x = this.x - (this.ic_result_popup_bgImg.width / 2);
     const popup_y = this.y - (this.ic_result_popup_bgImg.height / 2) - 20;
@@ -89,6 +94,11 @@ export class ResultPopup extends AWObj {
     context.drawImage(this.btn_result_popup_again_norImg, popup_x + 180, popup_y + 450);
     context.drawImage(this.ic_result_popup_firecrackerImg, popup_x + 55, popup_y + 100);
     context.drawImage(this.ic_result_popup_characterImg, popup_x + 95, popup_y + 150);
+    let medalImg = this.ic_result_popup_medal_1stImg;
+    if (localSum < otherSum) {
+      medalImg = this.ic_result_popup_medal_2ndImg;
+    }
+    context.drawImage(medalImg, popup_x + 158, popup_y + 224);
 
     context.save();
     const fontPT = 40;
@@ -105,8 +115,8 @@ export class ResultPopup extends AWObj {
     context.fillStyle = '#ffb746';
     // context.fillStyle = gradient;
     context.lineWidth = 1;
-    // context.fillText(this.room.other.successHistory.reduce((a, b) => a + b, 0).toLocaleString(), popup_x + 220, popup_y + 372);
-    // context.strokeText(this.room.other.successHistory.reduce((a, b) => a + b, 0).toLocaleString(), popup_x + 220, popup_y + 372);
+    context.fillText(localSum.toLocaleString(), popup_x + 220, popup_y + 372);
+    context.strokeText(localSum.toLocaleString(), popup_x + 220, popup_y + 372);
     context.restore();
 
 
@@ -135,29 +145,7 @@ export class ResultPopup extends AWObj {
   startPosition(): PointVector {
     return new PointVector(this.stage.width, this.stage.height / 2);
   }
-  resultCharacte(name: string): HTMLImageElement {
-    let img = AWResourceManager.getInstance().resources('result_character_03Img');
-    switch (name) {
-      case 'do': img = AWResourceManager.getInstance().resources('result_character_01Img'); break;
-      case 'so': img = AWResourceManager.getInstance().resources('result_character_02Img'); break;
-      case 'bs': img = AWResourceManager.getInstance().resources('result_character_03Img'); break;
-      default: img = AWResourceManager.getInstance().resources('result_character_03Img'); break;
-    }
-    return img;
-  }
-  summaryCharacte(name: string): HTMLImageElement {
-    let img = AWResourceManager.getInstance().resources('ranking_character_03Img');
-    switch (name) {
-      case 'do': img = AWResourceManager.getInstance().resources('ranking_character_01Img'); break;
-      case 'so': img = AWResourceManager.getInstance().resources('ranking_character_02Img'); break;
-      case 'bs': img = AWResourceManager.getInstance().resources('ranking_character_03Img'); break;
-      default: img = AWResourceManager.getInstance().resources('ranking_character_03Img'); break;
-    }
-    return img;
-  }
   onStop() {
-    console.log('resultpopup stop');
-    if (!ValidUtil.isNullOrUndefined(this.roomDetailSubscription)) {this.roomDetailSubscription.unsubscribe(); }
     if (!ValidUtil.isNullOrUndefined(this.mousedownSubscription)) {this.mousedownSubscription.unsubscribe(); }
   }
   onCreate(data?: any) {}

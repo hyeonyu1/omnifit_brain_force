@@ -41,12 +41,12 @@ export class Local extends Algo {
   }
 
   onStop(data?: any): Algo {
-    this.intervalSubscription.unsubscribe();
+    // this.intervalSubscription.unsubscribe();
     this.concentrationSubscription.unsubscribe();
     return this;
   }
   onDestroy(data?: any): Algo {
-    this.intervalSubscription.unsubscribe();
+    // this.intervalSubscription.unsubscribe();
     this.concentrationSubscription.unsubscribe();
     return this;
   }
