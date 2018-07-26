@@ -11,9 +11,8 @@ import {RoomStatusCode} from '../../code/RoomStatusCode';
 import {Observable} from 'rxjs/Observable';
 import {ObjImg} from '../../../../../../../../../lib-typescript/com/omnicns/graphics/ObjImg';
 import {MathUtil} from '../../../../../../../../../lib-typescript/com/omnicns/math/MathUtil';
-import {Algo} from '../../domain/Algo';
-import {Observer} from 'rxjs/Observer';
 import {interval} from 'rxjs/observable/interval';
+import {RandomUtil} from '../../../../../../../../../lib-typescript/com/omnicns/random/RandomUtil';
 export class MoveObjImg extends ObjImg {
   private _velocity = new PointVector();
   get velocity() {
@@ -34,6 +33,7 @@ export class Track extends AWObj {
   private ic_start_lineImg = AWResourceManager.getInstance().resources('ic_start_lineImg');
   private ic_finish_lineImg = AWResourceManager.getInstance().resources('ic_finish_lineImg');
   private ic_boardImg = AWResourceManager.getInstance().resources('ic_boardImg');
+  private ranking_shape_02_arrowImg = AWResourceManager.getInstance().resources('ranking_shape_02_arrowImg');
   private characterReady: HTMLImageElement;
   private characterFinish: HTMLImageElement;
   private characterRun: HTMLImageElement;
@@ -76,11 +76,11 @@ export class Track extends AWObj {
     }
 
     //debug guide view
-    context.beginPath();
-    context.strokeStyle     = '#FF0000';
-    context.moveTo(this.shiftStart, this.centerY);
-    context.lineTo(this.shiftStart, this.centerY + 20);
-    context.stroke();
+    // context.beginPath();
+    // context.strokeStyle     = '#FF0000';
+    // context.moveTo(this.shiftStart, this.centerY);
+    // context.lineTo(this.shiftStart, this.centerY + 20);
+    // context.stroke();
 
     //setting
     const fontPT            = 15;
@@ -102,8 +102,10 @@ export class Track extends AWObj {
     //board
     this.flagBoard.forEach((it) => {
       it.y = this.centerY;
+      let boardText = '';
       if (it.index > 0 && it.index < Info.FINISH_TRACK_UNIT) {
-        it.y += 50;
+        it.y += 35;
+        boardText = it.index.toLocaleString();
       }
       it.x = this.metreToPixel * it.index + this.shiftStart;
       if (this.room && this.room.status === RoomStatusCode.RUN) {
@@ -114,12 +116,12 @@ export class Track extends AWObj {
         it.x -= it.mass * (MathUtil.getValueByTotInPercent(this.stage.width, this.defaultSppedPercent));
       }
       it.drawImage(context);
-      context.fillText(it.index.toLocaleString(),  it.x, it.y - 10);
+      context.fillText(boardText,  it.x, it.y - 7);
     });
 
     //character position
     this.character.img = this.characterReady;
-    this.character.y = this.centerY - 50;
+    this.character.y = this.centerY - 60 + RandomUtil.random(0, 3);
     this.character.add(pixelDiff);
     this.character.x = Math.max(Math.min(this.stage.width - this.shiftEnd, this.character.x), this.shiftStart);
     if (this.room && this.room.status === RoomStatusCode.WAIT) {
@@ -148,8 +150,11 @@ export class Track extends AWObj {
       }
     });
     this.character.drawImage(context);
-    context.fillText(this.currentPoint.x.toLocaleString(), 20, this.centerY - 10);
-    context.fillText(this.speed.toLocaleString(), this.stage.width / 2 , this.centerY - 65);
+    if (this.id === 'local') {
+      this.drawImage(context, this.ranking_shape_02_arrowImg, this.character.x, this.character.y - this.character.img.height / 2, this.character.imgAlign, this.character.imgBaseline);
+    }
+    // context.fillText(this.currentPoint.x.toLocaleString(), 20, this.centerY - 10);
+    // context.fillText(this.speed.toLocaleString(), this.stage.width / 2 , this.centerY - 65);
   }
 
   onPause(data?: any) {
@@ -173,14 +178,14 @@ export class Track extends AWObj {
     this.currentPoint = new PointVector(); //초기 거리
     this.beforeOtherPoint = new PointVector();
     this.currentOtherPoint = new PointVector();  //초기 거리
-    this.character = new MoveObjImg(0, this.centerY - 50);
+    this.character = new MoveObjImg(0, this.centerY - 60);
     this.character.img = this.characterReady; this.character.imgAlign = 'center'; this.character.imgBaseline = 'middle';
     this.flagBoard = new Array<MoveObjImg>();
     this.characterIntervalObservable  = interval(100);
     if (this.chracterSubscription) { this.chracterSubscription.unsubscribe(); }
     this.chracterSubscription = this.characterIntervalObservable.subscribe((it) => {
       // if (Math.trunc(it / (20 - (this.speed.x * 10)))) {
-      if (it % ((this.speed.x||1) * 100)) {
+      if (it % ((this.speed.x || 1) * 100)) {
         this.characterRun = this.characterRun === this.characterRun1 ? this.characterRun2 : this.characterRun1;
       }
     });
@@ -256,7 +261,7 @@ export class Track extends AWObj {
       objImg.y = this.centerY;
     }else {
       objImg.img = this.ic_boardImg; objImg.imgAlign = 'center'; objImg.imgBaseline = 'middle';
-      objImg.y = this.centerY + 50;
+      objImg.y = this.centerY + 35;
     }
     objImg.x = (this.metreToPixel * objImg.index) + this.shiftStart;
     return objImg;

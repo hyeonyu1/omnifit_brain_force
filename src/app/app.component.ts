@@ -147,7 +147,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       AWResourceManager.getInstance().resources('ic_track_character1_04Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_05Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_06Img'),
-      100);
+      75);
     itrack.id = 'local';
     itrack.index = 100;
     stageIntro.pushObj(itrack);
@@ -158,7 +158,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       AWResourceManager.getInstance().resources('ic_track_character2_04Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_05Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_06Img'),
-      250);
+      200);
     itrack2.id = 'other';
     itrack2.index = 101;
     stageIntro.pushObj(itrack2);
@@ -263,7 +263,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       AWResourceManager.getInstance().resources('ic_track_character1_04Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_05Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_06Img'),
-      100);
+      75);
     track.id = 'local';
     track.index = 100;
     stageGame.pushObj(track);
@@ -274,7 +274,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       AWResourceManager.getInstance().resources('ic_track_character2_04Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_05Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_06Img'),
-      250);
+      200);
     track2.id = 'other';
     track2.index = 101;
     stageGame.pushObj(track2);

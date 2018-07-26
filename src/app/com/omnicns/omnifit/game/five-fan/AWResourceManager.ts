@@ -17,6 +17,7 @@ export class AWResourceManager implements LifeCycle {
 
   private constructor() {
     const ic_boardImg                               = new Image(); ic_boardImg.src = 'assets/image/ic_board.png';
+    const ranking_shape_02_arrowImg                               = new Image(); ranking_shape_02_arrowImg.src = 'assets/image/ranking_shape_02_arrow.png';
     const ic_result_popup_medal_1stImg              = new Image(); ic_result_popup_medal_1stImg.src = 'assets/image/ic_result_popup_medal_1st.png';
     const ic_result_popup_medal_2ndImg              = new Image(); ic_result_popup_medal_2ndImg.src = 'assets/image/ic_result_popup_medal_2nd.png';
     const ic_track_character1_01Img                 = new Image(); ic_track_character1_01Img.src = 'assets/image/ic_track_character1_01.png';
@@ -182,6 +183,7 @@ export class AWResourceManager implements LifeCycle {
     this.setResources('ic_boardImg', ic_boardImg);
     this.setResources('ic_result_popup_medal_1stImg', ic_result_popup_medal_1stImg);
     this.setResources('ic_result_popup_medal_2ndImg', ic_result_popup_medal_2ndImg);
+    this.setResources('ranking_shape_02_arrowImg', ranking_shape_02_arrowImg);
 
     // this._resources.forEach((v, k) => {
     //   Observable.fromEvent(v, 'load').subscribe( (it: Event) => {

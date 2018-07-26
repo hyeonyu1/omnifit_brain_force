@@ -27,6 +27,7 @@ import {Info} from '../info/Info';
 import {CollectionUtil} from '../../../../../../../../lib-typescript/com/omnicns/collection/CollectionUtil';
 import {DeviceManager} from '../../../drive/DeviceManager';
 import {AWResourceManager} from '../AWResourceManager';
+import {timer} from 'rxjs/observable/timer';
 
 //공기 및 유체 저항
 //https://ko.khanacademy.org/computing/computer-programming/programming-natural-simulations/programming-forces/a/air-and-fluid-resistance
@@ -114,7 +115,9 @@ export class AWStageGame extends AWStage {
     this.roomDetailSubScription = this.roomDetailSubject.filter( (it) => !ValidUtil.isNullOrUndefined(it.local) && !ValidUtil.isNullOrUndefined(it.other)).subscribe( (room: Room) => {
       this.room = room;
       if ((RoomStatusCode.END === room.status) && ValidUtil.isNullOrUndefined(this.resultPopup)) {
-        this.resultPopup = this.pushResultPopupOnCreateStart(this.room);
+        timer(1000).subscribe((it) => {
+          this.resultPopup = this.pushResultPopupOnCreateStart(this.room);
+        });
       }
     });
     // if (!ValidUtil.isNullOrUndefined(this.arm)) {
