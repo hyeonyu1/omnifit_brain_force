@@ -13,6 +13,7 @@ import {ObjImg} from '../../../../../../../../../lib-typescript/com/omnicns/grap
 import {MathUtil} from '../../../../../../../../../lib-typescript/com/omnicns/math/MathUtil';
 import {Algo} from '../../domain/Algo';
 import {Observer} from 'rxjs/Observer';
+import {interval} from 'rxjs/observable/interval';
 export class MoveObjImg extends ObjImg {
   private _velocity = new PointVector();
   get velocity() {
@@ -35,6 +36,7 @@ export class Track extends AWObj {
   private ic_boardImg = AWResourceManager.getInstance().resources('ic_boardImg');
   private characterReady: HTMLImageElement;
   private characterFinish: HTMLImageElement;
+  private characterRun: HTMLImageElement;
   private characterRun1: HTMLImageElement;
   private characterRun2: HTMLImageElement;
   private characterTire1: HTMLImageElement;
@@ -46,11 +48,14 @@ export class Track extends AWObj {
   private velocity: PointVector;
   // public algo: Algo;
   public finish = false;
+  private characterIntervalObservable: Observable<number>;
+  private chracterSubscription: Subscription;
   // private algo: Algo;
   constructor(stage: AWStage, characterReady: HTMLImageElement, characterRun1: HTMLImageElement, characterRun2: HTMLImageElement, characterFinish: HTMLImageElement, characterTire1: HTMLImageElement, characterTire2: HTMLImageElement, centerYMargin = 0) {
     super(stage);
     this.characterReady = characterReady;
     this.characterFinish = characterFinish;
+    this.characterRun = characterRun1;
     this.characterRun1 = characterRun1;
     this.characterRun2 = characterRun2;
     this.characterTire1 = characterTire1;
@@ -85,19 +90,14 @@ export class Track extends AWObj {
     context.textBaseline    = 'middle';
     context.fillStyle       = '#ffffff';
     context.lineWidth       = 1;
-    const speed             = PointVector.sub(this.currentPoint, this.beforePoint); // 전보다 몇미터 이동했는지
-    const speedOther        = PointVector.sub(this.currentOtherPoint, this.beforeOtherPoint);
-    const speedToPixel      = speed.x * this.metreToPixel; //전보다 몇미터 -> 몇 픽셀 이동했는지.
-    const speedToPicelOther = speedOther.x * this.metreToPixel;
+    const speedToPixel      = this.speed.x * this.metreToPixel; //전보다 몇미터 -> 몇 픽셀 이동했는지.
+    const speedToPicelOther = this.speedOther.x * this.metreToPixel;
     const pixel             = speedToPixel / this.timeUnit;
     const pixelOther        = speedToPicelOther / this.timeUnit;
     const omDiff            = this.currentPoint.x - this.currentOtherPoint.x;
     const mDiff             = Math.max(Math.min(10, omDiff), -10);  // 몇미터 상대방과 차이나는지.
     const diffToPixel       = mDiff * this.metreToPixel; // 몇미터 -> 몇픽셀 차이나는지.
     const pixelDiff         = diffToPixel / this.timeUnit; // 몇번에 나눠서 그려야되는지.
-
-
-
 
     //board
     this.flagBoard.forEach((it) => {
@@ -108,7 +108,7 @@ export class Track extends AWObj {
       it.x = this.metreToPixel * it.index + this.shiftStart;
       if (this.room && this.room.status === RoomStatusCode.RUN) {
         it.mass++;
-        it.mass += speed.x;
+        it.mass += this.speed.x;
         it.x -= it.mass * (MathUtil.getValueByTotInPercent(this.stage.width, this.defaultSppedPercent));
       } else {
         it.x -= it.mass * (MathUtil.getValueByTotInPercent(this.stage.width, this.defaultSppedPercent));
@@ -125,14 +125,18 @@ export class Track extends AWObj {
     if (this.room && this.room.status === RoomStatusCode.WAIT) {
       this.character.img = this.characterReady;
     }else if (this.room && this.room.status === RoomStatusCode.RUN) {
-      this.character.img = this.characterRun1;
+      this.character.img = this.characterRun;
     }else if (this.room && this.room.status === RoomStatusCode.END) {
       Observable.from(this.flagBoard).find((it) => it.index === Info.FINISH_TRACK_UNIT).subscribe((it) => {
         if (it.x < this.character.x) {
           this.character.img = this.characterFinish;
           this.finish = true;
         }else {
-          this.character.img = this.characterTire2;
+          if (Math.floor(new Date().getMilliseconds() / 500)) {
+            this.character.img = this.characterTire1;
+          }else {
+            this.character.img = this.characterTire2;
+          }
           this.finish = false;
         }
       });
@@ -145,7 +149,7 @@ export class Track extends AWObj {
     });
     this.character.drawImage(context);
     context.fillText(this.currentPoint.x.toLocaleString(), 20, this.centerY - 10);
-    context.fillText(speed.toLocaleString(), this.stage.width / 2 , this.centerY - 65);
+    context.fillText(this.speed.toLocaleString(), this.stage.width / 2 , this.centerY - 65);
   }
 
   onPause(data?: any) {
@@ -172,6 +176,14 @@ export class Track extends AWObj {
     this.character = new MoveObjImg(0, this.centerY - 50);
     this.character.img = this.characterReady; this.character.imgAlign = 'center'; this.character.imgBaseline = 'middle';
     this.flagBoard = new Array<MoveObjImg>();
+    this.characterIntervalObservable  = interval(100);
+    if (this.chracterSubscription) { this.chracterSubscription.unsubscribe(); }
+    this.chracterSubscription = this.characterIntervalObservable.subscribe((it) => {
+      // if (Math.trunc(it / (20 - (this.speed.x * 10)))) {
+      if (it % ((this.speed.x||1) * 100)) {
+        this.characterRun = this.characterRun === this.characterRun1 ? this.characterRun2 : this.characterRun1;
+      }
+    });
     console.log(Info.STEP_UNIT + ' ' + this.stage.clockInterval);
     for (let i = 0; i <= Info.FINISH_TRACK_UNIT; i++) {
       if (i % Info.DISPLAY_TRACK_FLAG_UNIT === 0) {
@@ -186,13 +198,10 @@ export class Track extends AWObj {
         if (this.room.status === RoomStatusCode.RUN) {
           this.beforePoint = this.currentPoint.get();
           this.beforeOtherPoint = this.currentOtherPoint.get();
-          // console.log('Track EventRoomDetail ' + this.room);
           if (this.id === 'local') {
-            // this.algo = this.room.local;
             this.currentPoint.add(this.room.local.success);
             this.currentOtherPoint.add(this.room.other.success);
           }else {
-            // this.algo = this.room.other;
             this.currentPoint.add(this.room.other.success);
             this.currentOtherPoint.add(this.room.local.success);
           }
@@ -208,6 +217,7 @@ export class Track extends AWObj {
   onStop(data?: any) {
     if (!ValidUtil.isNullOrUndefined(this.roomRunDetailSubscription)) {this.roomRunDetailSubscription.unsubscribe(); }
     if (!ValidUtil.isNullOrUndefined(this.resizeSubscription)) { this.resizeSubscription.unsubscribe(); }
+    if (!ValidUtil.isNullOrUndefined(this.chracterSubscription)) { this.chracterSubscription.unsubscribe(); }
   }
 
   onDestroy(data?: any) {
@@ -229,6 +239,12 @@ export class Track extends AWObj {
   }
   get metreToPixel() {
     return this.stage.width / Info.DISPLAY_TRACK_WIDTH_UNIT; //캔버스 width값에 따른  미터당 몇 픽셀인지.
+  }
+  get speed(): PointVector {
+    return PointVector.sub(this.currentPoint, this.beforePoint); // 전보다 몇미터 이동했는지
+  }
+  get speedOther(): PointVector {
+    return PointVector.sub(this.currentOtherPoint, this.beforeOtherPoint); // 전보다 몇미터 이동했는지
   }
   private resetImgPositionFlagObj(objImg: MoveObjImg) {
     // objImg.index = meter; //index를 meter로 쓴다.
