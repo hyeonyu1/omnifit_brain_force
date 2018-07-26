@@ -34,7 +34,7 @@ export class DeviceManager {
     this.concentrationSubscription = this.headsetConcentrationSubscribe((concentration) => {
       this.headsetConcentration = concentration;
       this.headsetConcentrationHistory.push(concentration);
-      //console.log('headsetConcentration' + this.headsetConcentration + ', history ' + this.headsetConcentrationHistory);
+      console.log('headsetConcentration' + this.headsetConcentration + ', history ' + this.headsetConcentrationHistory);
     });
     this.keySubscription = this.fromeEvent('keydown', (e: KeyboardEvent) => {
       let at = (this.headsetConcentration || 0);

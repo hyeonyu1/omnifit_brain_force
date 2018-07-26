@@ -6,7 +6,6 @@ import {interval} from 'rxjs/observable/interval';
 
 export class Local extends Algo {
   private concentrationSubscription: Subscription;
-  private concentration = 0;
   private intervalSubscription: Subscription;
 
   constructor(uuid?: string, host?: string) {
@@ -14,15 +13,13 @@ export class Local extends Algo {
   }
 
   onCreate(data?: any): Algo {
-    this.intervalSubscription = interval(1000).subscribe( (it) => {
-      // this.headsetConcentration = Math.trunc(Math.max(0.5, this.concentration));
-      this.headsetConcentration = Math.trunc(this.concentration);
-      this.headsetConcentrationHistory.push(this.headsetConcentration);
-      this.success = Math.max(0.2, this.headsetConcentration / 5);
-      this.successHistory.push(this.success);
-    });
     this.concentrationSubscription = DeviceManager.getInstance().headsetConcentrationSubscribe((concentration) => {
-      this.concentration = concentration;
+      this.headsetConcentration = Math.trunc(concentration);
+      this.headsetConcentrationHistory.push(this.headsetConcentration);
+      // this.success = Math.max(0.2, this.headsetConcentration / 5);
+      this.success = this.headsetConcentration / 5;
+      // this.success = this.headsetConcentration;
+      this.successHistory.push(this.success);
     });
     return this;
   }

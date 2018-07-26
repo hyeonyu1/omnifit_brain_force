@@ -14,10 +14,12 @@ export class Level2 extends Algo {
   }
 
   onCreate(data?: any): Algo {
-    this.intervalSubscription = interval(1000).subscribe( (it) => {
+    this.intervalSubscription = interval(2000).subscribe( (it) => {
       this.headsetConcentration = Math.trunc(RandomUtil.random(3, 7 + 1));
       this.headsetConcentrationHistory.push(this.headsetConcentration);
-      this.success = Math.max(0.2, this.headsetConcentration / 5);
+      // this.success = Math.max(0.2, this.headsetConcentration / 5);
+      this.success = this.headsetConcentration / 5;
+      // this.success = this.headsetConcentration;
       this.successHistory.push(this.success);
     });
     return this;
