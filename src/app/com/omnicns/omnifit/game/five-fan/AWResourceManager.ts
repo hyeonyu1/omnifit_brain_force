@@ -72,17 +72,6 @@ export class AWResourceManager implements LifeCycle {
     const game_bg_cloud_04Img = new Image(); game_bg_cloud_04Img.src = 'assets/image/game_bg_cloud_04.png';
     const game_bg_cloud_05Img = new Image(); game_bg_cloud_05Img.src = 'assets/image/game_bg_cloud_05.png';
     const alarm_iconImg = new Image(); alarm_iconImg.src = 'assets/image/alarm_icon.png';
-    const ic_maincharacter_1Img = new Image(); ic_maincharacter_1Img.src = 'assets/image/ic_maincharacter_1.png';
-    const ic_maincharacter_2Img = new Image(); ic_maincharacter_2Img.src = 'assets/image/ic_maincharacter_2.png';
-    const ic_maincharacter_3_1Img = new Image(); ic_maincharacter_3_1Img.src = 'assets/image/ic_maincharacter_3_1.png';
-    const ic_maincharacter_3_2Img = new Image(); ic_maincharacter_3_2Img.src = 'assets/image/ic_maincharacter_3_2.png';
-    const ic_maincharacter_4Img = new Image(); ic_maincharacter_4Img.src = 'assets/image/ic_maincharacter_4.png';
-    const ic_maincharacter_5Img = new Image(); ic_maincharacter_5Img.src = 'assets/image/ic_maincharacter_5.png';
-    const ic_fan_onImg = new Image(); ic_fan_onImg.src = 'assets/image/ic_fan_on.png';
-    const ic_fan_offImg = new Image(); ic_fan_offImg.src = 'assets/image/ic_fan_off.png';
-    const ic_fanframe_01Img = new Image(); ic_fanframe_01Img.src = 'assets/image/ic_fanframe_01.png';
-    const ic_fanframe_02Img = new Image(); ic_fanframe_02Img.src = 'assets/image/ic_fanframe_02.png';
-    const ic_fanframe_powerImg = new Image(); ic_fanframe_powerImg.src = 'assets/image/ic_fanframe_power.png';
 
     const btn_result_popup_again_norImg = new Image(); btn_result_popup_again_norImg.src = 'assets/image/btn_result_popup_again_nor.png';
     const btn_result_popup_exit_norImg = new Image(); btn_result_popup_exit_norImg.src = 'assets/image/btn_result_popup_exit_nor.png';
@@ -104,18 +93,6 @@ export class AWResourceManager implements LifeCycle {
     this.setResources('game_bg_cloud_04Img', game_bg_cloud_04Img);
     this.setResources('game_bg_cloud_05Img', game_bg_cloud_05Img);
     this.setResources('alarm_iconImg', alarm_iconImg);
-    this.setResources('ic_maincharacter_1Img', ic_maincharacter_1Img);
-    this.setResources('ic_maincharacter_2Img', ic_maincharacter_2Img);
-    this.setResources('ic_maincharacter_3_1Img', ic_maincharacter_3_1Img);
-    this.setResources('ic_maincharacter_3_2Img', ic_maincharacter_3_2Img);
-    this.setResources('ic_maincharacter_4Img', ic_maincharacter_4Img);
-    this.setResources('ic_maincharacter_5Img', ic_maincharacter_5Img);
-    this.setResources('ic_maincharacter_5Img', ic_maincharacter_5Img);
-    this.setResources('ic_fan_onImg', ic_fan_onImg);
-    this.setResources('ic_fan_offImg', ic_fan_offImg);
-    this.setResources('ic_fanframe_01Img', ic_fanframe_01Img);
-    this.setResources('ic_fanframe_02Img', ic_fanframe_02Img);
-    this.setResources('ic_fanframe_powerImg', ic_fanframe_powerImg);
 
     this.setResources('btn_result_popup_again_norImg', btn_result_popup_again_norImg);
     this.setResources('btn_result_popup_exit_norImg', btn_result_popup_exit_norImg);

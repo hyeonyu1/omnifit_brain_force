@@ -130,7 +130,18 @@ export class Track extends AWObj {
       this.character.img = this.characterRun;
     }else if (this.room && this.room.status === RoomStatusCode.END) {
       Observable.from(this.flagBoard).find((it) => it.index === Info.FINISH_TRACK_UNIT).subscribe((it) => {
-        if (it.x < this.character.x) {
+        // if (it.x < this.character.x) {
+        //   this.character.img = this.characterFinish;
+        //   this.finish = true;
+        // }else {
+        //   if (Math.floor(new Date().getMilliseconds() / 500)) {
+        //     this.character.img = this.characterTire1;
+        //   }else {
+        //     this.character.img = this.characterTire2;
+        //   }
+        //   this.finish = false;
+        // }
+        if (this.currentPoint.x > this.currentOtherPoint.x) {
           this.character.img = this.characterFinish;
           this.finish = true;
         }else {

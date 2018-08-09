@@ -29,6 +29,7 @@ import {Headlights} from './com/omnicns/omnifit/game/five-fan/obj/game/Headlight
 import {Guest} from './com/omnicns/omnifit/game/five-fan/obj/game/Guest';
 import {AWStageLogo} from './com/omnicns/omnifit/game/five-fan/stage/AWStageLogo';
 import {Logo} from './com/omnicns/omnifit/game/five-fan/obj/logo/Logo';
+import {Alarm} from './com/omnicns/omnifit/game/five-fan/obj/alarm/Alarm';
 
 // https://medium.com/@tarik.nzl/creating-a-canvas-component-with-free-hand-drawing-with-rxjs-and-angular-61279f577415
 // typescript observable subscribe example
@@ -287,10 +288,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     //   stageGame.pushObj(fan);
     // }
 
-    //man
-    // const winMan = new WigMan(stageGame, AWResourceManager.getInstance().resources('ic_maincharacter_1Img'), fanOrder++);
-    // winMan.index = 600;
-    // stageGame.pushObj(winMan);
+    //alarm
+    const alarm = new Alarm(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('alarm_iconImg'));
+    alarm.index = 600;
+    stageGame.pushObj(alarm);
 
     const score = new Score(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('gage_00Img'));
     score.index = 1001;
