@@ -68,11 +68,11 @@ export class IntroPopup extends AWObj {
     this.mousedownSubscription = this.stage.canvasEventSubscribe('mousedown', (event: MouseEvent) => {
       // console.log('--' + event.offsetX + ',' + event.offsetY + '   ' + this.hitArea.contains(event.offsetX, event.offsetY) + this.hitArea);
       if (!ValidUtil.isNullOrUndefined(this.btn1levelImgHit) && this.btn1levelImgHit.contains(event.offsetX, event.offsetY)) {
-        AWStageManager.getInstance().nextStage(new Level1('level1', 'other', 'char_00').onCreate().onStart());
+        AWStageManager.getInstance().nextStage(new Level1('1', 'other', 'char_00').onCreate().onStart());
       } else if (!ValidUtil.isNullOrUndefined(this.btn2levelImgHit) && this.btn2levelImgHit.contains(event.offsetX, event.offsetY)) {
-        AWStageManager.getInstance().nextStage(new Level2('level2', 'other', 'char_01').onCreate().onStart());
+        AWStageManager.getInstance().nextStage(new Level2('2', 'other', 'char_01').onCreate().onStart());
       } else if (!ValidUtil.isNullOrUndefined(this.btn3levelImgHit) && this.btn3levelImgHit.contains(event.offsetX, event.offsetY)) {
-        AWStageManager.getInstance().nextStage(new Level3('level3', 'other', 'char_02').onCreate().onStart());
+        AWStageManager.getInstance().nextStage(new Level3('3', 'other', 'char_02').onCreate().onStart());
       }
     });
   }
