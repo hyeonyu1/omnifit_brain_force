@@ -7,6 +7,7 @@ export abstract class Algo implements LifeCycle {
   public headsetConcentration = 0;
   public headsetConcentrationHistory = new Array<number>();
   public success = 0;
+  public successScore = 0;
   public successHistory = new Array<number>();
   constructor(uuid = 'local', host = 'local') {
     this.uuid = uuid;

@@ -78,7 +78,8 @@ export class ResultPopup extends AWObj {
     }
 
     //data setting
-    const localSum = this.room.local.headsetConcentrationHistory.reduce((a, b) => a + b, 0);
+    // const localSum = this.room.local.headsetConcentrationHistory.reduce((a, b) => a + b, 0);
+    const localSum = this.room.local.successScore;
     const otherSum = this.room.other.headsetConcentrationHistory.reduce((a, b) => a + b, 0);
 
     //draw popup background

@@ -13,6 +13,7 @@ import {ObjImg} from '../../../../../../../../../lib-typescript/com/omnicns/grap
 import {MathUtil} from '../../../../../../../../../lib-typescript/com/omnicns/math/MathUtil';
 import {interval} from 'rxjs/observable/interval';
 import {RandomUtil} from '../../../../../../../../../lib-typescript/com/omnicns/random/RandomUtil';
+import {Algo} from '../../domain/Algo';
 export class MoveObjImg extends ObjImg {
   private _velocity = new PointVector();
   get velocity() {
@@ -50,6 +51,7 @@ export class Track extends AWObj {
   public finish = false;
   private characterIntervalObservable: Observable<number>;
   private chracterSubscription: Subscription;
+  private algo: Algo;
   // private algo: Algo;
   constructor(stage: AWStage, characterReady: HTMLImageElement, characterRun1: HTMLImageElement, characterRun2: HTMLImageElement, characterFinish: HTMLImageElement, characterTire1: HTMLImageElement, characterTire2: HTMLImageElement, centerYMargin = 0) {
     super(stage);
@@ -99,25 +101,7 @@ export class Track extends AWObj {
     const diffToPixel       = mDiff * this.metreToPixel; // 몇미터 -> 몇픽셀 차이나는지.
     const pixelDiff         = diffToPixel / this.timeUnit; // 몇번에 나눠서 그려야되는지.
 
-    //board
-    this.flagBoard.forEach((it) => {
-      it.y = this.centerY;
-      let boardText = '';
-      if (it.index > 0 && it.index < Info.FINISH_TRACK_UNIT) {
-        it.y += 35;
-        boardText = it.index.toLocaleString();
-      }
-      it.x = this.metreToPixel * it.index + this.shiftStart;
-      if (this.room && this.room.status === RoomStatusCode.RUN) {
-        it.mass++;
-        it.mass += this.speed.x;
-        it.x -= it.mass * (MathUtil.getValueByTotInPercent(this.stage.width, this.defaultSppedPercent));
-      } else {
-        it.x -= it.mass * (MathUtil.getValueByTotInPercent(this.stage.width, this.defaultSppedPercent));
-      }
-      it.drawImage(context);
-      context.fillText(boardText,  it.x, it.y - 7);
-    });
+
 
     //character position
     this.character.img = this.characterReady;
@@ -154,6 +138,57 @@ export class Track extends AWObj {
         }
       });
     }
+
+    //board
+    let bCnt = 10;
+    let fCnt = 10;
+    let isOver = false;
+    for (let i = 0; i < this.flagBoard.length; i++) {
+      const it = this.flagBoard[i];
+      it.y = this.centerY;
+      let boardText = '';
+      if (it.index > 0 && it.index < Info.FINISH_TRACK_UNIT) {
+        it.y += 35;
+        boardText = it.index.toLocaleString();
+      }
+      it.x = this.metreToPixel * it.index + this.shiftStart;
+      if (this.room && this.room.status === RoomStatusCode.RUN) {
+        it.mass++;
+        it.mass += this.speed.x;
+        it.x -= it.mass * (MathUtil.getValueByTotInPercent(this.stage.width, this.defaultSppedPercent));
+      } else {
+        it.x -= it.mass * (MathUtil.getValueByTotInPercent(this.stage.width, this.defaultSppedPercent));
+      }
+      if (it.x <= this.character.x) {
+        bCnt--;
+      }
+      if (it.x > this.character.x) {
+        fCnt--;
+        if (isOver === false && this.algo) {
+         isOver = true;
+          const diff = it.x - this.character.x;
+          // console.log('----index ' + it.index + '     ' + it.x);
+          const a = (it.index * diff) / it.x;
+          // this.algo.successScore = it.index + a - a;//(it.index * this.character.x) / it.x;
+          // this.algo.successScore = (this.flagBoard[i - 1].index * this.character.x) / this.flagBoard[i - 1].x;
+          const bit = this.flagBoard[i - 1];
+          const idiff = it.x - bit.x;
+          const cdiff = this.character.x - bit.x;
+          const p = MathUtil.getPercentByTot(it.x, this.character.x);
+          if (this.id === 'local')
+          console.log('------ ' + p )
+          // this.algo.successScore = '(' + bit.index + ')' + bit.index + MathUtil.getValuePercentUp(Info.DISPLAY_TRACK_FLAG_UNIT, p);
+          this.algo.successScore = Number(bit.index +  MathUtil.getValuePercentUp(Info.DISPLAY_TRACK_FLAG_UNIT, p) - Info.DISPLAY_TRACK_FLAG_UNIT);
+          // this.algo.successScore = this.flagBoard[i - 1].index;
+          // this.algo.successScore = it.index - 3;
+        }
+      }
+      if (bCnt > 0 || fCnt > 0) {
+        it.drawImage(context);
+        context.fillText(boardText,  it.x, it.y - 7);
+      }
+    }
+
     Observable.from(this.flagBoard).find((it) => it.index === Info.FINISH_TRACK_UNIT).subscribe((it) => {
       if (this.room && it.x < this.character.x) {
         this.room.status = RoomStatusCode.END;
@@ -215,9 +250,11 @@ export class Track extends AWObj {
           this.beforePoint = this.currentPoint.get();
           this.beforeOtherPoint = this.currentOtherPoint.get();
           if (this.id === 'local') {
+            this.algo = this.room.local;
             this.currentPoint.add(this.room.local.success);
             this.currentOtherPoint.add(this.room.other.success);
           }else {
+            this.algo = this.room.other;
             this.currentPoint.add(this.room.other.success);
             this.currentOtherPoint.add(this.room.local.success);
           }
