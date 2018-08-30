@@ -175,10 +175,10 @@ export class Track extends AWObj {
           const idiff = it.x - bit.x;
           const cdiff = this.character.x - bit.x;
           const p = MathUtil.getPercentByTot(it.x, this.character.x);
-          if (this.id === 'local')
-          console.log('------ ' + p )
+          // if (this.id === 'local')
+          // console.log('------ ' + p )
           // this.algo.successScore = '(' + bit.index + ')' + bit.index + MathUtil.getValuePercentUp(Info.DISPLAY_TRACK_FLAG_UNIT, p);
-          this.algo.successScore = Number(bit.index +  MathUtil.getValuePercentUp(Info.DISPLAY_TRACK_FLAG_UNIT, p) - Info.DISPLAY_TRACK_FLAG_UNIT);
+          this.algo.successScore = Math.trunc(bit.index +  MathUtil.getValuePercentUp(Info.DISPLAY_TRACK_FLAG_UNIT, p) - Info.DISPLAY_TRACK_FLAG_UNIT);
           // this.algo.successScore = this.flagBoard[i - 1].index;
           // this.algo.successScore = it.index - 3;
         }
