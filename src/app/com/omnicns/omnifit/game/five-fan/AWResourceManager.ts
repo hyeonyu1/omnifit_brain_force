@@ -16,6 +16,8 @@ export class AWResourceManager implements LifeCycle {
   }
 
   private constructor() {
+    let lang;
+    lang = navigator.language;
     const ic_boardImg                               = new Image(); ic_boardImg.src = 'assets/image/ic_board.png';
     const ranking_shape_02_arrowImg                               = new Image(); ranking_shape_02_arrowImg.src = 'assets/image/ranking_shape_02_arrow.png';
     const ic_result_popup_medal_1stImg              = new Image(); ic_result_popup_medal_1stImg.src = 'assets/image/ic_result_popup_medal_1st.png';
@@ -39,8 +41,10 @@ export class AWResourceManager implements LifeCycle {
     const btn_level_hard_norImg        = new Image(); btn_level_hard_norImg.src = 'assets/image/btn_level_hard_nor.png';
     const btn_level_normal_norImg        = new Image(); btn_level_normal_norImg.src = 'assets/image/btn_level_normal_nor.png';
     const btn_level_easy_norImg        = new Image(); btn_level_easy_norImg.src = 'assets/image/btn_level_easy_nor.png';
-    const ic_intro_popuptextImg        = new Image(); ic_intro_popuptextImg.src = 'assets/image/ic_intro_popuptext.png';
-    const ic_intro_popuptext2Img        = new Image(); ic_intro_popuptext2Img.src = 'assets/image/ic_intro_popuptext2.png';
+    const ic_intro_popuptextImg        = new Image();
+    ic_intro_popuptextImg.src = (lang.indexOf('ko') > -1 ? 'assets/image/ic_intro_popuptext.png' : 'assets/image/ic_intro_popuptext_en.png');
+    const ic_intro_popuptext2Img        = new Image();
+    ic_intro_popuptext2Img.src = (lang.indexOf('ko') > -1 ? 'assets/image/ic_intro_popuptext2.png' : 'assets/image/ic_intro_popuptext2_en.png');
     const ic_displayboardImg        = new Image(); ic_displayboardImg.src = 'assets/image/ic_displayboard.png';
     const ic_gage_medal_offImg      = new Image(); ic_gage_medal_offImg.src = 'assets/image/ic_gage_medal_off.png';
     const ic_gage_medal_onImg       = new Image(); ic_gage_medal_onImg.src = 'assets/image/ic_gage_medal_on.png';
@@ -73,8 +77,10 @@ export class AWResourceManager implements LifeCycle {
     const game_bg_cloud_05Img = new Image(); game_bg_cloud_05Img.src = 'assets/image/game_bg_cloud_05.png';
     const alarm_iconImg = new Image(); alarm_iconImg.src = 'assets/image/alarm_icon.png';
 
-    const btn_result_popup_again_norImg = new Image(); btn_result_popup_again_norImg.src = 'assets/image/btn_result_popup_again_nor.png';
-    const btn_result_popup_exit_norImg = new Image(); btn_result_popup_exit_norImg.src = 'assets/image/btn_result_popup_exit_nor.png';
+    const btn_result_popup_again_norImg = new Image();
+    btn_result_popup_again_norImg.src = (lang.indexOf('ko') > -1 ? 'assets/image/btn_result_popup_again_nor.png' : 'assets/image/btn_result_popup_again_nor_en.png');
+    const btn_result_popup_exit_norImg = new Image();
+    btn_result_popup_exit_norImg.src = (lang.indexOf('ko') > -1 ? 'assets/image/btn_result_popup_exit_nor.png' : 'assets/image/btn_result_popup_exit_nor_en.png');
     const ic_result_popup_bgImg = new Image(); ic_result_popup_bgImg.src = 'assets/image/ic_result_popup_bg.png';
     const ic_result_popup_characterImg = new Image(); ic_result_popup_characterImg.src = 'assets/image/ic_result_popup_character.png';
     const ic_result_popup_firecrackerImg = new Image(); ic_result_popup_firecrackerImg.src = 'assets/image/ic_result_popup_firecracker.png';

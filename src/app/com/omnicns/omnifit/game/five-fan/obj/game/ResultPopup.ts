@@ -102,12 +102,12 @@ export class ResultPopup extends AWObj {
     context.drawImage(medalImg, popup_x + 158, popup_y + 224);
 
     context.save();
-    const fontPT = 40;
+    const fontPT = 'normal 35';
     context.strokeStyle = '#261813';
     // context.shadowColor = '#000000';
     // context.shadowOffsetX = -1;
     // context.shadowOffsetY = -1;
-    context.font = fontPT + 'pt Multicolore';
+    context.font = fontPT + 'px Arial';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     // const gradient = context.createLinearGradient(0, 0, 0, this.stage.height);
@@ -116,8 +116,8 @@ export class ResultPopup extends AWObj {
     context.fillStyle = '#ffb746';
     // context.fillStyle = gradient;
     context.lineWidth = 1;
-    context.fillText(localSum.toLocaleString(), popup_x + 220, popup_y + 372);
-    context.strokeText(localSum.toLocaleString(), popup_x + 220, popup_y + 372);
+    context.fillText(localSum.toLocaleString() + ' m', popup_x + 178, popup_y + 372);
+    // context.strokeText(localSum.toLocaleString() + ' m', popup_x + 220, popup_y + 372);
     context.restore();
 
 
