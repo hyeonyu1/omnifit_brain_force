@@ -18,6 +18,8 @@ export class AWResourceManager implements LifeCycle {
   private constructor() {
     let lang;
     lang = navigator.language;
+    let andFlag;
+    andFlag = navigator.userAgent.toLowerCase();
     const ic_boardImg                               = new Image(); ic_boardImg.src = 'assets/image/ic_board.png';
     const ranking_shape_02_arrowImg                               = new Image(); ranking_shape_02_arrowImg.src = 'assets/image/ranking_shape_02_arrow.png';
     const ic_result_popup_medal_1stImg              = new Image(); ic_result_popup_medal_1stImg.src = 'assets/image/ic_result_popup_medal_1st.png';
@@ -38,7 +40,7 @@ export class AWResourceManager implements LifeCycle {
     const ic_start_lineImg                 = new Image(); ic_start_lineImg.src = 'assets/image/ic_start_line.png';
     const ic_finish_lineImg                 = new Image(); ic_finish_lineImg.src = 'assets/image/ic_finish_line.png';
     const intro_bgImg                 = new Image();
-    if ((window.outerWidth / window.outerHeight) < 0.54) {
+    if (((window.outerWidth / window.outerHeight) < 0.54) && (andFlag.search('android') > -1)) {// OS 가 안드로이드 이면서 18.5 : 9 화면비 일때
         intro_bgImg.src = 'assets/image/intro_bg_long.png';
     } else {
         intro_bgImg.src = 'assets/image/intro_bg.png';
