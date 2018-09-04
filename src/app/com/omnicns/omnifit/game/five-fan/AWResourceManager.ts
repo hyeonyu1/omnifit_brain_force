@@ -37,7 +37,12 @@ export class AWResourceManager implements LifeCycle {
     const ic_track_01Img                 = new Image(); ic_track_01Img.src = 'assets/image/ic_track_01.png';
     const ic_start_lineImg                 = new Image(); ic_start_lineImg.src = 'assets/image/ic_start_line.png';
     const ic_finish_lineImg                 = new Image(); ic_finish_lineImg.src = 'assets/image/ic_finish_line.png';
-    const intro_bgImg                 = new Image(); intro_bgImg.src = 'assets/image/intro_bg.png';
+    const intro_bgImg                 = new Image();
+    if ((window.outerWidth / window.outerHeight) < 0.54) {
+        intro_bgImg.src = 'assets/image/intro_bg_long.png';
+    } else {
+        intro_bgImg.src = 'assets/image/intro_bg.png';
+    }
     const btn_level_hard_norImg        = new Image(); btn_level_hard_norImg.src = 'assets/image/btn_level_hard_nor.png';
     const btn_level_normal_norImg        = new Image(); btn_level_normal_norImg.src = 'assets/image/btn_level_normal_nor.png';
     const btn_level_easy_norImg        = new Image(); btn_level_easy_norImg.src = 'assets/image/btn_level_easy_nor.png';
