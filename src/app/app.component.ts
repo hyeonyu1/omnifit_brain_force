@@ -110,7 +110,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     let igeustIndex = 31;
     let igeust: Guest;
     // geust = new Guest(droneStageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_1_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_1_2Img'), -250, -70);
-    igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_1_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_1_2Img'), -250, -240);
+    igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_1_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_1_2Img'), -130, -120);
     igeust.index = igeustIndex++;
     stageIntro.pushObj(igeust);
     igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_2_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_2_2Img'), -230, -220);
@@ -128,7 +128,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_6_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_6_2Img'), -150, -140);
     igeust.index = igeustIndex++;
     stageIntro.pushObj(igeust);
-    igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_7_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_7_2Img'), -130, -120);
+    igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_7_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_7_2Img'), -250, -240);
     igeust.index = igeustIndex++;
     stageIntro.pushObj(igeust);
     igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_8_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_8_2Img'), -110, -100);
@@ -148,9 +148,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       AWResourceManager.getInstance().resources('ic_track_character1_04Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_05Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_06Img'),
-      75);
+      200);
     itrack.id = 'local';
-    itrack.index = 100;
+    itrack.index = 101;
     stageIntro.pushObj(itrack);
     const itrack2 = new Track(stageIntro,
       AWResourceManager.getInstance().resources('ic_track_character2_01Img'),
@@ -159,9 +159,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       AWResourceManager.getInstance().resources('ic_track_character2_04Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_05Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_06Img'),
-      200);
+      75);
     itrack2.id = 'other';
-    itrack2.index = 101;
+    itrack2.index = 100;
     stageIntro.pushObj(itrack2);
 
     // let ifanOrder = 1;
@@ -243,7 +243,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_6_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_6_2Img'), -150, -140);
     geust.index = geustIndex++;
     stageGame.pushObj(geust);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_7_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_7_2Img'), -130, -120);
+    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_7_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_7_2Img'), -250, -240);
     geust.index = geustIndex++;
     stageGame.pushObj(geust);
     geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_8_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_8_2Img'), -110, -100);
@@ -264,9 +264,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       AWResourceManager.getInstance().resources('ic_track_character1_04Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_05Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_06Img'),
-      75);
+      200);
     track.id = 'local';
-    track.index = 100;
+    track.index = 101;
     stageGame.pushObj(track);
     const track2 = new Track(stageGame,
       AWResourceManager.getInstance().resources('ic_track_character2_01Img'),
@@ -275,9 +275,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       AWResourceManager.getInstance().resources('ic_track_character2_04Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_05Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_06Img'),
-      200);
+      75);
     track2.id = 'other';
-    track2.index = 101;
+    track2.index = 100;
     stageGame.pushObj(track2);
 
     // let fanOrder = 1;
