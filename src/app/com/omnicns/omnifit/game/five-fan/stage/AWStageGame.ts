@@ -118,7 +118,7 @@ export class AWStageGame extends AWStage {
       if ((RoomStatusCode.END === room.status) && ValidUtil.isNullOrUndefined(this.resultPopup)) {
         timer(1000).subscribe((it) => {
           this.resultPopup = this.pushResultPopupOnCreateStart(this.room);
-          DeviceManager.getInstance().on('onGameEnd', this.room.local.headsetConcentrationHistory.reduce((a, b) => a + b, 0));
+          DeviceManager.getInstance().on('onGameEnd', this.room.local.successScore.toLocaleString());
         });
       }
     });
