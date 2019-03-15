@@ -93,7 +93,7 @@ export class Score extends AWObj {
     this.room = undefined;
     //집중도
     this.roomDetailSubscription = this.stage.eventObservable(AWStageEvent.EVENT_ROOM_DETAIL).filter((it) => !ValidUtil.isNullOrUndefined(it.local) && !ValidUtil.isNullOrUndefined(it.other)).subscribe( (room: Room) => {
-      console.log('score room ' + room.status + ' ' + room.local.headsetConcentration);
+      // console.log('score room ' + room.status + ' ' + room.local.headsetConcentration);
       if (room.status === RoomStatusCode.RUN) {
         this.room = room;
       }else {

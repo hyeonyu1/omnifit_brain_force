@@ -93,6 +93,14 @@ export class AWResourceManager implements LifeCycle {
     const ic_result_popup_firecrackerImg = new Image(); ic_result_popup_firecrackerImg.src = 'assets/image/ic_result_popup_firecracker.png';
     const ic_result_popup_score_bgImg = new Image(); ic_result_popup_score_bgImg.src = 'assets/image/ic_result_popup_score_bg.png';
 
+    const ic_scoretext_excellentImg         = new Image(); ic_scoretext_excellentImg.src = 'assets/image/ic_scoretext_excellent.png';
+    const ic_scoretext_verygoodImg         = new Image(); ic_scoretext_verygoodImg.src = 'assets/image/ic_scoretext_verygood.png';
+    const ic_scoretext_goodImg         = new Image(); ic_scoretext_goodImg.src = 'assets/image/ic_scoretext_good.png';
+    const ic_scoretext_notgoodImg         = new Image(); ic_scoretext_notgoodImg.src = 'assets/image/ic_scoretext_notgood.png';
+    const ic_scoretext_badImg         = new Image(); ic_scoretext_badImg.src = 'assets/image/ic_scoretext_bad.png';
+    const ic_scoretext_badge_02_1Img         = new Image(); ic_scoretext_badge_02_1Img.src = 'assets/image/ic_scoretext_badge_02_1.png';
+    const ic_scoretext_badge_02_2Img         = new Image(); ic_scoretext_badge_02_2Img.src = 'assets/image/ic_scoretext_badge_02_2.png';
+
     const applauseSound = new Audio('assets/audio/applause.mp3');
     const applause_upSound = new Audio('assets/audio/applause_up.mp3');
     const fanSound = new Audio('assets/audio/fan.mp3');
@@ -175,6 +183,13 @@ export class AWResourceManager implements LifeCycle {
     this.setResources('ic_result_popup_medal_2ndImg', ic_result_popup_medal_2ndImg);
     this.setResources('ranking_shape_02_arrowImg', ranking_shape_02_arrowImg);
 
+    this.setResources('ic_scoretext_excellentImg', ic_scoretext_excellentImg);
+    this.setResources('ic_scoretext_verygoodImg', ic_scoretext_verygoodImg);
+    this.setResources('ic_scoretext_goodImg', ic_scoretext_goodImg);
+    this.setResources('ic_scoretext_notgoodImg', ic_scoretext_notgoodImg);
+    this.setResources('ic_scoretext_badImg', ic_scoretext_badImg);
+    this.setResources('ic_scoretext_badge_02_1Img', ic_scoretext_badge_02_1Img);
+    this.setResources('ic_scoretext_badge_02_2Img', ic_scoretext_badge_02_2Img);
     // this._resources.forEach((v, k) => {
     //   Observable.fromEvent(v, 'load').subscribe( (it: Event) => {
     //     //it.srcElement;

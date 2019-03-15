@@ -37,6 +37,14 @@ export class ResultPopup extends AWObj {
   private ic_result_popup_medal_1stImg = AWResourceManager.getInstance().resources('ic_result_popup_medal_1stImg');
   private ic_result_popup_medal_2ndImg = AWResourceManager.getInstance().resources('ic_result_popup_medal_2ndImg');
 
+  private ic_scoretext_excellentImg = AWResourceManager.getInstance().resources('ic_scoretext_excellentImg');
+  private ic_scoretext_verygoodImg = AWResourceManager.getInstance().resources('ic_scoretext_verygoodImg');
+  private ic_scoretext_goodImg = AWResourceManager.getInstance().resources('ic_scoretext_goodImg');
+  private ic_scoretext_notgoodImg = AWResourceManager.getInstance().resources('ic_scoretext_notgoodImg');
+  private ic_scoretext_badImg = AWResourceManager.getInstance().resources('ic_scoretext_badImg');
+  private ic_scoretext_badge_02_1Img = AWResourceManager.getInstance().resources('ic_scoretext_badge_02_1Img');
+  private ic_scoretext_badge_02_2Img = AWResourceManager.getInstance().resources('ic_scoretext_badge_02_2Img');
+
   private targetPosition: PointVector;
   private hitArea: Rect;
   private hitExitArea: Rect;
@@ -84,15 +92,15 @@ export class ResultPopup extends AWObj {
 
     //draw popup background
     const popup_x = this.x - (this.ic_result_popup_bgImg.width / 2);
-    const popup_y = this.y - (this.ic_result_popup_bgImg.height / 2) - 20;
+    const popup_y = this.y - (this.ic_result_popup_bgImg.height / 2) - 50;
     context.drawImage(this.ic_result_popup_bgImg, popup_x, popup_y);
     this.hitArea = new Rect(popup_x, popup_y, popup_x + this.ic_result_popup_bgImg.width, popup_y + this.ic_result_popup_bgImg.height);
     this.hitExitArea = new Rect(popup_x, popup_y + this.ic_result_popup_bgImg.height, popup_x + this.ic_result_popup_bgImg.width - 185, popup_y + this.ic_result_popup_bgImg.height + 60);
     this.hitReStartArea = new Rect(popup_x + 185, popup_y + this.ic_result_popup_bgImg.height, popup_x + this.ic_result_popup_bgImg.width, popup_y + this.ic_result_popup_bgImg.height + 60);
 
     context.drawImage(this.ic_result_popup_score_bgImg, popup_x + 45, popup_y + 330);
-    context.drawImage(this.btn_result_popup_exit_norImg, popup_x + 7, popup_y + 450);
-    context.drawImage(this.btn_result_popup_again_norImg, popup_x + 180, popup_y + 450);
+    context.drawImage(this.btn_result_popup_exit_norImg, popup_x + 7, popup_y + 542);
+    context.drawImage(this.btn_result_popup_again_norImg, popup_x + 180, popup_y + 542);
     context.drawImage(this.ic_result_popup_firecrackerImg, popup_x + 55, popup_y + 100);
     context.drawImage(this.ic_result_popup_characterImg, popup_x + 95, popup_y + 150);
     let medalImg = this.ic_result_popup_medal_1stImg;
@@ -100,6 +108,24 @@ export class ResultPopup extends AWObj {
       medalImg = this.ic_result_popup_medal_2ndImg;
     }
     context.drawImage(medalImg, popup_x + 158, popup_y + 224);
+
+    // 점수에 따라 멘트와 등급 표시
+    if (localSum >= 0 && localSum <= 200) {
+      context.drawImage(this.ic_scoretext_badImg, popup_x + 40, popup_y + 265);
+      context.drawImage(this.ic_scoretext_badge_02_2Img, popup_x + 25, popup_y + 486);
+    } else if (localSum >= 201 && localSum <= 400) {
+      context.drawImage(this.ic_scoretext_notgoodImg, popup_x + 40, popup_y + 265);
+      context.drawImage(this.ic_scoretext_badge_02_2Img, popup_x + 25, popup_y + 462);
+    } else if (localSum >= 401 && localSum <= 600) {
+      context.drawImage(this.ic_scoretext_goodImg, popup_x + 40, popup_y + 265);
+      context.drawImage(this.ic_scoretext_badge_02_1Img, popup_x + 25, popup_y + 439);
+    } else if (localSum >= 601 && localSum <= 800) {
+      context.drawImage(this.ic_scoretext_verygoodImg, popup_x + 40, popup_y + 265);
+      context.drawImage(this.ic_scoretext_badge_02_1Img, popup_x + 25, popup_y + 416);
+    } else if (localSum >= 801) {
+      context.drawImage(this.ic_scoretext_excellentImg, popup_x + 40, popup_y + 265);
+      context.drawImage(this.ic_scoretext_badge_02_1Img, popup_x + 25, popup_y + 393);
+    }
 
     context.save();
     const fontPT = 'normal 35';
@@ -119,8 +145,6 @@ export class ResultPopup extends AWObj {
     context.fillText(localSum.toLocaleString() + ' m', popup_x + 178, popup_y + 372);
     // context.strokeText(localSum.toLocaleString() + ' m', popup_x + 220, popup_y + 372);
     context.restore();
-
-
   }
 
   onStart(room: Room) {

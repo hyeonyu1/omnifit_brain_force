@@ -43,6 +43,10 @@ export class DeviceManager {
       }else if ('ArrowDown' === e.key) {
         at--;
       }
+      if (e.key === '-') { at = 10; }
+      if (e.key >= '0' && e.key <= '9') {
+        at = Number(e.key);
+      }
       at = Math.min(10, at);
       at = Math.max(0, at);
       this.dispatchCustomEvent(new CustomEvent(DeviceManager.EVENT_OMNIFIT_HEADSET_CONCENTRATION, {detail: at}));
