@@ -98,7 +98,7 @@ export class ResultPopup extends AWObj {
     this.hitExitArea = new Rect(popup_x, popup_y + this.ic_result_popup_bgImg.height, popup_x + this.ic_result_popup_bgImg.width - 185, popup_y + this.ic_result_popup_bgImg.height + 60);
     this.hitReStartArea = new Rect(popup_x + 185, popup_y + this.ic_result_popup_bgImg.height, popup_x + this.ic_result_popup_bgImg.width, popup_y + this.ic_result_popup_bgImg.height + 60);
 
-    context.drawImage(this.ic_result_popup_score_bgImg, popup_x + 45, popup_y + 330);
+    context.drawImage(this.ic_result_popup_score_bgImg, popup_x + 45, popup_y + 308);
     context.drawImage(this.btn_result_popup_exit_norImg, popup_x + 7, popup_y + 542);
     context.drawImage(this.btn_result_popup_again_norImg, popup_x + 180, popup_y + 542);
     context.drawImage(this.ic_result_popup_firecrackerImg, popup_x + 55, popup_y + 100);
@@ -142,7 +142,7 @@ export class ResultPopup extends AWObj {
     context.fillStyle = '#ffb746';
     // context.fillStyle = gradient;
     context.lineWidth = 1;
-    context.fillText(localSum.toLocaleString() + ' m', popup_x + 178, popup_y + 372);
+    context.fillText(localSum.toLocaleString() + ' m', popup_x + 178, popup_y + 350);
     // context.strokeText(localSum.toLocaleString() + ' m', popup_x + 220, popup_y + 372);
     context.restore();
   }
