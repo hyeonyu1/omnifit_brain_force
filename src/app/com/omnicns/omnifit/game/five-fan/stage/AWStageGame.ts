@@ -97,13 +97,15 @@ export class AWStageGame extends AWStage {
       if (this.room.startCnt >= 0) {
         this.room.startCnt = (--this.room.startCnt);
         this.room.status = RoomStatusCode.WAIT;
+        if (this.room.startCnt === 2) {
+          DeviceManager.getInstance().on('onGameStart', this.otherAlgo.uuid);
+        }
       }else if (this.room.status === RoomStatusCode.WAIT && this.room.startCnt <= 0) { // 처음 카운트 다운끝나고 RUN
         this.room.local.clearConcentration();
         this.room.other.clearConcentration();
         this.room.local.clearSuccessHistory();
         this.room.other.clearSuccessHistory();
         this.room.status = RoomStatusCode.RUN;
-        DeviceManager.getInstance().on('onGameStart', this.otherAlgo.uuid);
       // }else if (this.room.status === RoomStatusCode.RUN && this.room.local.successHistory.reduce((a, b) => a + b, 0) > Info.FINISH_TRACK_UNIT || this.room.other.successHistory.reduce((a, b) => a + b, 0) > Info.FINISH_TRACK_UNIT) {
       //   this.room.status = RoomStatusCode.END;
       //   this.room.local.onStop();

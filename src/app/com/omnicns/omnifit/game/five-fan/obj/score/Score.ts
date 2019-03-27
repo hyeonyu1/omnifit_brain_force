@@ -58,7 +58,7 @@ export class Score extends AWObj {
     dir.mult(0.7);
     this.acceleration = dir;
     this.velocity.add(this.acceleration);
-    this.velocity.limit(7);
+    this.velocity.limit(10);
     const oldPosition = this.get();
     this.add(this.velocity);
     const oldCheck = PointVector.sub(oldPosition, targetPosition);
