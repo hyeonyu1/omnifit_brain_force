@@ -128,7 +128,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_6_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_6_2Img'), -150, -140);
     igeust.index = igeustIndex++;
     stageIntro.pushObj(igeust);
-    igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_7_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_7_2Img'), -250, -240);
+    igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_7_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_7_2Img'), -130, -120);
     igeust.index = igeustIndex++;
     stageIntro.pushObj(igeust);
     igeust = new Guest(stageIntro, AWResourceManager.getInstance().resources('ic_crowdcharacter_8_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_8_2Img'), -110, -100);
@@ -243,7 +243,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_6_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_6_2Img'), -150, -140);
     geust.index = geustIndex++;
     stageGame.pushObj(geust);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_7_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_7_2Img'), -250, -240);
+    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_7_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_7_2Img'), -130, -120);
     geust.index = geustIndex++;
     stageGame.pushObj(geust);
     geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_8_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_8_2Img'), -110, -100);
