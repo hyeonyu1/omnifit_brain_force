@@ -12,6 +12,7 @@ import {AWObj} from '../AWObj';
 export class Logo extends AWObj {
   private mousedownSubscription: Subscription;
   private intro_bg = AWResourceManager.getInstance().resources('intro_bgImg');
+  private intro_tablet_bg = AWResourceManager.getInstance().resources('intro_tablet_bgImg');
   private intro_text_02 = AWResourceManager.getInstance().resources('intro_text_02Img');
   private audio: HTMLAudioElement;
 
@@ -20,8 +21,15 @@ export class Logo extends AWObj {
   }
 
   onDraw(context: CanvasRenderingContext2D): void {
-    if (!this.intro_text_02.complete || !this.intro_bg.complete) { return; }
-    context.drawImage(this.intro_bg, 0, 0, this.stage.width, this.intro_bg.height * (this.stage.width / this.intro_bg.width));
+    let viewComplete = 0;
+    if (window.outerWidth < window.outerHeight) {
+      context.drawImage(this.intro_bg, 0, 0, this.stage.width, this.intro_bg.height * (this.stage.width / this.intro_bg.width));
+      viewComplete = 1;
+    } else {
+      context.drawImage(this.intro_tablet_bg, 0, 0, this.stage.width, this.intro_tablet_bg.height * (this.stage.width / this.intro_tablet_bg.width));
+      viewComplete = 1;
+    }
+    if (!this.intro_text_02.complete || !viewComplete) { return; }
     if (Math.floor(new Date().getMilliseconds() / 500)) {
       this.x = (this.stage.width / 2) - this.intro_text_02.width / 2;
       this.y = this.stage.height - (this.intro_text_02.height) - 50;
