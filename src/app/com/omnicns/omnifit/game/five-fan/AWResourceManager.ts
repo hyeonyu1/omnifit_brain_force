@@ -45,7 +45,8 @@ export class AWResourceManager implements LifeCycle {
     } else {
         intro_bgImg.src = 'assets/image/intro_bg.png';
     }
-    const intro_tablet_bgImg        = new Image(); intro_tablet_bgImg.src = 'assets/image/intro_tablet_bg.png';
+    const intro_tablet_16_9_bgImg        = new Image(); intro_tablet_16_9_bgImg.src = 'assets/image/intro_tablet_16_9_bg.png';
+    const intro_tablet_16_10_bgImg        = new Image(); intro_tablet_16_10_bgImg.src = 'assets/image/intro_tablet_16_10_bg.png';
     const btn_level_hard_norImg        = new Image(); btn_level_hard_norImg.src = 'assets/image/btn_level_hard_nor.png';
     const btn_level_normal_norImg        = new Image(); btn_level_normal_norImg.src = 'assets/image/btn_level_normal_nor.png';
     const btn_level_easy_norImg        = new Image(); btn_level_easy_norImg.src = 'assets/image/btn_level_easy_nor.png';
@@ -164,7 +165,8 @@ export class AWResourceManager implements LifeCycle {
     this.setResources('btn_level_normal_norImg', btn_level_normal_norImg);
     this.setResources('btn_level_hard_norImg', btn_level_hard_norImg);
     this.setResources('intro_bgImg', intro_bgImg);
-    this.setResources('intro_tablet_bgImg', intro_tablet_bgImg);
+    this.setResources('intro_tablet_16_9_bgImg', intro_tablet_16_9_bgImg);
+    this.setResources('intro_tablet_16_10_bgImg', intro_tablet_16_10_bgImg);
     this.setResources('ic_track_01Img', ic_track_01Img);
     this.setResources('ic_start_lineImg', ic_start_lineImg);
     this.setResources('ic_finish_lineImg', ic_finish_lineImg);

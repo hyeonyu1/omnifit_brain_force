@@ -12,7 +12,8 @@ import {AWObj} from '../AWObj';
 export class Logo extends AWObj {
   private mousedownSubscription: Subscription;
   private intro_bg = AWResourceManager.getInstance().resources('intro_bgImg');
-  private intro_tablet_bg = AWResourceManager.getInstance().resources('intro_tablet_bgImg');
+  private intro_tablet_16_9_bg = AWResourceManager.getInstance().resources('intro_tablet_16_9_bgImg');
+  private intro_tablet_16_10_bg = AWResourceManager.getInstance().resources('intro_tablet_16_10_bgImg');
   private intro_text_02 = AWResourceManager.getInstance().resources('intro_text_02Img');
   private audio: HTMLAudioElement;
 
@@ -25,8 +26,14 @@ export class Logo extends AWObj {
     if (window.outerWidth < window.outerHeight) {
       context.drawImage(this.intro_bg, 0, 0, this.stage.width, this.intro_bg.height * (this.stage.width / this.intro_bg.width));
       viewComplete = 1;
-    } else {
-      context.drawImage(this.intro_tablet_bg, 0, 0, this.stage.width, this.intro_tablet_bg.height * (this.stage.width / this.intro_tablet_bg.width));
+    }
+    if (window.outerWidth > window.outerHeight) {
+      const height_ratio = (this.stage.height * 16) / this.stage.width;
+      if (height_ratio <= 9) {
+        context.drawImage(this.intro_tablet_16_9_bg, 0, 0, this.stage.width, this.intro_tablet_16_9_bg.height * (this.stage.width / this.intro_tablet_16_9_bg.width));
+      } else {
+        context.drawImage(this.intro_tablet_16_10_bg, 0, 0, this.stage.width, this.intro_tablet_16_10_bg.height * (this.stage.width / this.intro_tablet_16_10_bg.width));
+      }
       viewComplete = 1;
     }
     if (!this.intro_text_02.complete || !viewComplete) { return; }
