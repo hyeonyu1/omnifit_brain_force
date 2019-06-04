@@ -8,6 +8,7 @@ import {AWResourceManager} from '../../AWResourceManager';
 import {AWStageManager} from '../../AWStageManager';
 import {AWStage} from '../../stage/AWStage';
 import {AWObj} from '../AWObj';
+import {Info} from '../../info/Info';
 
 export interface UserResult {
   uuid: string;
@@ -109,20 +110,24 @@ export class ResultPopup extends AWObj {
     }
     context.drawImage(medalImg, popup_x + 158, popup_y + 224);
 
+    // VeryGood = 850
+    // Good = 700
+    // NotGood = 550
+    // Bad = 400
     // 점수에 따라 멘트와 등급 표시
-    if (localSum >= 0 && localSum <= 200) {
+    if (localSum >= 0 && localSum <= Info.BAD) {
       context.drawImage(this.ic_scoretext_badImg, popup_x + 40, popup_y + 265);
       context.drawImage(this.ic_scoretext_badge_02_2Img, popup_x + 25, popup_y + 486);
-    } else if (localSum >= 201 && localSum <= 400) {
+    } else if (localSum > Info.BAD && localSum <= Info.NOT_GOOD) {
       context.drawImage(this.ic_scoretext_notgoodImg, popup_x + 40, popup_y + 265);
       context.drawImage(this.ic_scoretext_badge_02_2Img, popup_x + 25, popup_y + 462);
-    } else if (localSum >= 401 && localSum <= 600) {
+    } else if (localSum > Info.NOT_GOOD && localSum <= Info.GOOD) {
       context.drawImage(this.ic_scoretext_goodImg, popup_x + 40, popup_y + 265);
       context.drawImage(this.ic_scoretext_badge_02_1Img, popup_x + 25, popup_y + 439);
-    } else if (localSum >= 601 && localSum <= 800) {
+    } else if (localSum > Info.GOOD && localSum <= Info.VERY_GOOD) {
       context.drawImage(this.ic_scoretext_verygoodImg, popup_x + 40, popup_y + 265);
       context.drawImage(this.ic_scoretext_badge_02_1Img, popup_x + 25, popup_y + 416);
-    } else if (localSum >= 801) {
+    } else if (localSum > Info.VERY_GOOD) {
       context.drawImage(this.ic_scoretext_excellentImg, popup_x + 40, popup_y + 265);
       context.drawImage(this.ic_scoretext_badge_02_1Img, popup_x + 25, popup_y + 393);
     }
