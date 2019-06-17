@@ -23,11 +23,11 @@ export class Logo extends AWObj {
 
   onDraw(context: CanvasRenderingContext2D): void {
     let viewComplete = 0;
-    if (window.outerWidth < window.outerHeight) {
+    if (this.stage.width < this.stage.height) {
       context.drawImage(this.intro_bg, 0, 0, this.stage.width, this.intro_bg.height * (this.stage.width / this.intro_bg.width));
       viewComplete = 1;
     }
-    if (window.outerWidth > window.outerHeight) {
+    if (this.stage.width > this.stage.height) {
       const height_ratio = (this.stage.height * 16) / this.stage.width;
       if (height_ratio <= 9) {
         context.drawImage(this.intro_tablet_16_9_bg, 0, 0, this.stage.width, this.intro_tablet_16_9_bg.height * (this.stage.width / this.intro_tablet_16_9_bg.width));
