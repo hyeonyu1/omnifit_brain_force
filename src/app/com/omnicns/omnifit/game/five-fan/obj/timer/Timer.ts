@@ -35,19 +35,9 @@ export class Timer extends AWObj {
 
     this.x = this.stage.width / 2;
     this.y = this.stage.height / 2;
-    // const imgStartX = this.x - tw;
-    // const imgStartY = this.y - th;
-    // const imgEndX = this.x + this.img.width + tw ;
-    // const imgEndY = this.y + this.img.height + th ;
 
-    // context.fillStyle = 'blue';
-    // context.fillText(this.btnText, this.stage.width / 2, this.stage.height / 2);
-    //
     context.strokeStyle = '#000000';
-    // context.shadowColor = '#000000';
-    // context.shadowOffsetX = -1;
-    // context.shadowOffsetY = -1;
-    // context.font = 'bold  ' + fontPT + 'pt Multicolore';
+
     context.font = fontPT + 'pt Multicolore';
     context.textAlign = 'center';
     context.textBaseline = 'middle' ;
@@ -58,8 +48,6 @@ export class Timer extends AWObj {
   }
 
   onStart(data?: any) {
-    // this.position = this.position || new PointVector(RandomUtil.random(this.stage.width), RandomUtil.random(this.stage.height));
-    //console.log('drone start id ' + this.id);
     this.x  = RandomUtil.random(this.stage.width);
     this.y = this.stage.height;
     this.velocity = new PointVector(0, 0);
@@ -67,7 +55,6 @@ export class Timer extends AWObj {
 
     AWResourceManager.getInstance().resources('ready_startSound').play();
     this.roomDetailSubscription = this.stage.eventObservable(AWStageEvent.EVENT_ROOM_DETAIL).filter( (it: Room) => it.status === 'wait' || it.status === 'run').subscribe( (room: Room) => {
-      //console.log(room.status + ' ' + room.startCnt + '  ' + room.endCnt);
       this.room = room;
       this.btnText = String(room.startCnt); // as string;
       this.sizejump = 100;

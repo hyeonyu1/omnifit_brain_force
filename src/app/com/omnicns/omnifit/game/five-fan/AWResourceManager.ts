@@ -20,6 +20,13 @@ export class AWResourceManager implements LifeCycle {
     lang = navigator.language;
     let andFlag;
     andFlag = navigator.userAgent.toLowerCase();
+
+
+    const laserImage                                = new Image(); laserImage.src = 'assets/image/laserImage.png';
+    const laserBar                                  = new Image(); laserBar.src = 'assets/image/laserBar.png';
+
+
+
     const ic_boardImg                               = new Image(); ic_boardImg.src = 'assets/image/ic_board.png';
     const ranking_shape_02_arrowImg                               = new Image(); ranking_shape_02_arrowImg.src = 'assets/image/ranking_shape_02_arrow.png';
     const ic_result_popup_medal_1stImg              = new Image(); ic_result_popup_medal_1stImg.src = 'assets/image/ic_result_popup_medal_1st.png';
@@ -194,6 +201,12 @@ export class AWResourceManager implements LifeCycle {
     this.setResources('ic_scoretext_badImg', ic_scoretext_badImg);
     this.setResources('ic_scoretext_badge_02_1Img', ic_scoretext_badge_02_1Img);
     this.setResources('ic_scoretext_badge_02_2Img', ic_scoretext_badge_02_2Img);
+
+
+    this.setResources('laserImage', laserImage);
+    this.setResources('laserBar', laserBar);
+
+
     // this._resources.forEach((v, k) => {
     //   Observable.fromEvent(v, 'load').subscribe( (it: Event) => {
     //     //it.srcElement;

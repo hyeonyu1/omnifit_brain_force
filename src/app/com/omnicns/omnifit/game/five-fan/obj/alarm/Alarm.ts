@@ -24,7 +24,6 @@ export class Alarm extends AWObj {
     if (this.start >= 0) {
       const fontPT = (this.start >= 100) ? 16 : 18;
       context.save();
-      //const width = context.measureText('show me the money 123,456').width;
       context.font = fontPT + 'pt Multicolore';
       context.textAlign = 'center';
       context.textBaseline = 'middle';
@@ -33,8 +32,8 @@ export class Alarm extends AWObj {
       if (this.start < 10) {
         context.translate((this.start % 2) * 5, 0);
       }
-      context.drawImage(this.img, this.stage.width - this.img.width - 10 , this.y + (this.img.height) + 10);
-      context.fillText(String(this.start), this.stage.width - (this.img.width / 2) - 10, this.y + (this.img.height) + (this.img.height / 2) + 12);
+      context.drawImage(this.img, this.stage.width - this.img.width - 10 , this.y);
+      context.fillText(String(this.start), this.stage.width - (this.img.width / 2) - 10, this.y + (this.img.height / 2));
       context.restore();
     }
   }

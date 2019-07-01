@@ -52,7 +52,7 @@ export class Guest extends AWObj {
   }
 
   onDraw(context: CanvasRenderingContext2D): void {
-    if (!this.motion1.complete || !this.motion2.complete) { return }
+    if (!this.motion1.complete || !this.motion2.complete) { return; }
 
     context.translate(this.translatePosition.x, this.translatePosition.y);
     //////update

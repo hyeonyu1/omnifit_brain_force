@@ -53,6 +53,8 @@ export class ResultPopup extends AWObj {
   private mousedownSubscription: Subscription;
   private room: Room;
 
+  private hi = 0;
+  private hello = 0;
   constructor(stage: AWStage, x: number, y: number, z: number, img?: HTMLImageElement) {
     super(stage, x, y, z, img);
   }
@@ -87,9 +89,13 @@ export class ResultPopup extends AWObj {
     }
 
     //data setting
-    // const localSum = this.room.local.headsetConcentrationHistory.reduce((a, b) => a + b, 0);
-    const localSum = this.room.local.successScore;
+    const localSum = this.room.local.headsetConcentrationHistory.reduce((a, b) => a + b, 0);
+    //const localSum = this.room.local.successScore;
+    //const localSum = Math.sum(this.room.local.headsetConcentrationHistory);
     const otherSum = this.room.other.headsetConcentrationHistory.reduce((a, b) => a + b, 0);
+
+
+
 
     //draw popup background
     const popup_x = this.x - (this.ic_result_popup_bgImg.width / 2);
@@ -147,7 +153,7 @@ export class ResultPopup extends AWObj {
     context.fillStyle = '#ffb746';
     // context.fillStyle = gradient;
     context.lineWidth = 1;
-    context.fillText(localSum.toLocaleString() + ' m', popup_x + 178, popup_y + 350);
+    context.fillText(localSum.toLocaleString() + ' points', popup_x + 178, popup_y + 350);
     // context.strokeText(localSum.toLocaleString() + ' m', popup_x + 220, popup_y + 372);
     context.restore();
   }

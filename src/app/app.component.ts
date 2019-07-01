@@ -10,26 +10,24 @@ import {AWResourceManager} from './com/omnicns/omnifit/game/five-fan/AWResourceM
 import {AWStageManager} from './com/omnicns/omnifit/game/five-fan/AWStageManager';
 import {BackGround} from './com/omnicns/omnifit/game/five-fan/obj/background/BackGround';
 import {MainBackGround} from './com/omnicns/omnifit/game/five-fan/obj/game/MainBackGround';
-import {Leaf} from './com/omnicns/omnifit/game/five-fan/obj/intro/Leaf';
 import {IntroPopup} from './com/omnicns/omnifit/game/five-fan/obj/intro/IntroPopup';
-import {Star} from './com/omnicns/omnifit/game/five-fan/obj/intro/Star';
-import {Title} from './com/omnicns/omnifit/game/five-fan/obj/intro/Title';
 import {Score} from './com/omnicns/omnifit/game/five-fan/obj/score/Score';
 import {Timer} from './com/omnicns/omnifit/game/five-fan/obj/timer/Timer';
 import {AWStageGame} from './com/omnicns/omnifit/game/five-fan/stage/AWStageGame';
 import {AWStageIntro} from './com/omnicns/omnifit/game/five-fan/stage/AWStageIntro';
-import {Fan} from './com/omnicns/omnifit/game/five-fan/obj/game/Fan';
-import {WigMan} from './com/omnicns/omnifit/game/five-fan/obj/game/WigMan';
 import {Track} from './com/omnicns/omnifit/game/five-fan/obj/game/Track';
 import {Rail} from './com/omnicns/omnifit/game/five-fan/obj/game/Rail';
 import {Bench} from './com/omnicns/omnifit/game/five-fan/obj/game/Bench';
 import {Flags} from './com/omnicns/omnifit/game/five-fan/obj/game/Flags';
-import {Cloud} from './com/omnicns/omnifit/game/five-fan/obj/game/Cloud';
 import {Headlights} from './com/omnicns/omnifit/game/five-fan/obj/game/Headlights';
 import {Guest} from './com/omnicns/omnifit/game/five-fan/obj/game/Guest';
 import {AWStageLogo} from './com/omnicns/omnifit/game/five-fan/stage/AWStageLogo';
 import {Logo} from './com/omnicns/omnifit/game/five-fan/obj/logo/Logo';
 import {Alarm} from './com/omnicns/omnifit/game/five-fan/obj/alarm/Alarm';
+import {Character} from './com/omnicns/omnifit/game/five-fan/obj/game/Character';
+
+
+import {Laser} from './com/omnicns/omnifit/game/five-fan/obj/game/Laser';
 
 // https://medium.com/@tarik.nzl/creating-a-canvas-component-with-free-hand-drawing-with-rxjs-and-angular-61279f577415
 // typescript observable subscribe example
@@ -71,10 +69,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     //trigger
     this.canvas.dispatchEvent(new Event('resize'));
   }
+  //////////////////////////////////////////////////////////////////////////////////////////////
 
   ngAfterViewInit(): void {
     //game initialize
     this.stageManager = AWStageManager.getInstance(this.canvas);
+    // getting info from brain
     this.deviceManager = DeviceManager.getInstance();
     this.resourceManager = AWResourceManager.getInstance();
 
@@ -164,131 +164,97 @@ export class AppComponent implements OnInit, AfterViewInit {
     itrack2.index = 100;
     stageIntro.pushObj(itrack2);
 
-    // let ifanOrder = 1;
-    // for (let i = 500; i <= 509; i++) {
-    //   const fan = new Fan(stageIntro, AWResourceManager.getInstance().resources('ic_fan_offImg'), ifanOrder++);
-    //   fan.index = i;
-    //   console.log(fan.order);
-    //   stageIntro.pushObj(fan);
-    // }
-
     const instroPopup = new IntroPopup(stageIntro, 0, 0, 0, AWResourceManager.getInstance().resources('intro_text_02Img'));
     instroPopup.index = 600;
     stageIntro.pushObj(instroPopup);
-    // const introTitle = new Title(droneStageIntro, 0, 0, 0, AWResourceManager.getInstance().resources('titleImg'));
-    // introTitle.index = 50;
-    // droneStageIntro.pushObj(introTitle);
-    // const touchScreen = new IntroPopup(droneStageIntro, 0, 0, 0, AWResourceManager.getInstance().resources('intro_text_02Img'));
-    // touchScreen.index = 150;
-    // droneStageIntro.pushObj(touchScreen);
-    // //cloud
-    // for (let i = 51; i < 100 ; i++) {
-    //   const cloud = new Leaf(droneStageIntro, 0, 0, 0, AWResourceManager.getInstance().resources('ef_smokeImg'));
-    //   cloud.index = i;
-    //   droneStageIntro.pushObj(cloud);
-    // }
-    // //star
-    // for (let i = 100; i < 120 ; i++) {
-    //   const star = new Star(droneStageIntro, 0, 0, 0);
-    //   star.index = i;
-    //   droneStageIntro.pushObj(star);
-    // }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
 
     ///////////////Stage Game
     const stageGame = new AWStageGame(this.canvas);
     //background
     stageGame.pushObj(background);
 
+
     const mainBackGround = new MainBackGround(stageIntro, 0, 0, 0);
     mainBackGround.index = 2;
     stageGame.pushObj(mainBackGround);
 
-    for (let i = 15; i < 25 ; i++) {
-      const cloud = new Cloud(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('game_bg_cloud_05Img'));
-      cloud.index = i;
-      stageGame.pushObj(cloud);
-    }
-
-    const headlights = new Headlights(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('ic_lighttowerImg'));
-    headlights.index = 28;
-    stageGame.pushObj(headlights);
-
-    const flags = new Flags(stageGame, 0, 0, 0);
-    flags.index = 29;
-    stageGame.pushObj(flags);
-
-    const bench = new Bench(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('ic_audienceseatImg'));
-    bench.index = 30;
-    stageGame.pushObj(bench);
-
     ///geust
-    let geustIndex = 31;
-    let geust: Guest;
-    // geust = new Guest(droneStageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_1_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_1_2Img'), -250, -70);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_1_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_1_2Img'), -250, -240);
-    geust.index = geustIndex++;
-    stageGame.pushObj(geust);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_2_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_2_2Img'), -230, -220);
-    geust.index = geustIndex++;
-    stageGame.pushObj(geust);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_3_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_3_2Img'), -210, -200);
-    geust.index = geustIndex++;
-    stageGame.pushObj(geust);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_4_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_4_2Img'), -190, -180);
-    geust.index = geustIndex++;
-    stageGame.pushObj(geust);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_5_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_5_2Img'), -170, -160);
-    geust.index = geustIndex++;
-    stageGame.pushObj(geust);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_6_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_6_2Img'), -150, -140);
-    geust.index = geustIndex++;
-    stageGame.pushObj(geust);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_7_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_7_2Img'), -130, -120);
-    geust.index = geustIndex++;
-    stageGame.pushObj(geust);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_8_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_8_2Img'), -110, -100);
-    geust.index = geustIndex++;
-    stageGame.pushObj(geust);
-    geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_9_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_9_2Img'), -90, -70);
-    geust.index = geustIndex++;
-    stageGame.pushObj(geust);
+    // let geustIndex = 31;
+    // let geust: Guest;
+    // // geust = new Guest(droneStageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_1_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_1_2Img'), -250, -70);
+    // geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_1_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_1_2Img'), -250, -240);
+    // geust.index = geustIndex++;
+    // stageGame.pushObj(geust);
+    // geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_2_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_2_2Img'), -230, -220);
+    // geust.index = geustIndex++;
+    // stageGame.pushObj(geust);
+    // geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_3_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_3_2Img'), -210, -200);
+    // geust.index = geustIndex++;
+    // stageGame.pushObj(geust);
+    // geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_4_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_4_2Img'), -190, -180);
+    // geust.index = geustIndex++;
+    // stageGame.pushObj(geust);
+    // geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_5_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_5_2Img'), -170, -160);
+    // geust.index = geustIndex++;
+    // stageGame.pushObj(geust);
+    // geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_6_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_6_2Img'), -150, -140);
+    // geust.index = geustIndex++;
+    // stageGame.pushObj(geust);
+    // geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_7_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_7_2Img'), -130, -120);
+    // geust.index = geustIndex++;
+    // stageGame.pushObj(geust);
+    // geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_8_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_8_2Img'), -110, -100);
+    // geust.index = geustIndex++;
+    // stageGame.pushObj(geust);
+    // geust = new Guest(stageGame, AWResourceManager.getInstance().resources('ic_crowdcharacter_9_1Img'), AWResourceManager.getInstance().resources('ic_crowdcharacter_9_2Img'), -90, -70);
+    // geust.index = geustIndex++;
+    // stageGame.pushObj(geust);
+    //
+    // const rail = new Rail(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('ic_displayboardImg'));
+    // rail.index = 50;
+    // stageGame.pushObj(rail);
+    //
 
-    const rail = new Rail(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('ic_displayboardImg'));
-    rail.index = 50;
-    stageGame.pushObj(rail);
-
-    const track = new Track(stageGame,
+    const character1 = new Character(stageGame,
       AWResourceManager.getInstance().resources('ic_track_character1_01Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_02Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_03Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_04Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_05Img'),
       AWResourceManager.getInstance().resources('ic_track_character1_06Img'),
-      200);
-    track.id = 'local';
-    track.index = 101;
-    stageGame.pushObj(track);
-    const track2 = new Track(stageGame,
+      200, true);
+    character1.id = 'local';
+    character1.index = 101;
+    stageGame.pushObj(character1);
+    console.log('draw cha1');
+    const character2 = new Character(stageGame,
       AWResourceManager.getInstance().resources('ic_track_character2_01Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_02Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_03Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_04Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_05Img'),
       AWResourceManager.getInstance().resources('ic_track_character2_06Img'),
-      75);
-    track2.id = 'other';
-    track2.index = 100;
-    stageGame.pushObj(track2);
+      75, false);
+    character2.id = 'other';
+    character2.index = 100;
+    stageGame.pushObj(character2);
+    console.log('draw cha2');
 
-    // let fanOrder = 1;
-    // for (let i = 500; i <= 509; i++) {
-    //   const fan = new Fan(stageGame, AWResourceManager.getInstance().resources('ic_fan_offImg'), fanOrder++);
-    //   fan.index = i;
-    //   console.log(fan.order);
-    //   stageGame.pushObj(fan);
-    // }
 
-    //alarm
+
+    const laser = new Laser(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('laserImage'));
+    laser.index = 103;
+    stageGame.pushObj(laser);
+
+
     const alarm = new Alarm(stageGame, 0, 0, 0, AWResourceManager.getInstance().resources('alarm_iconImg'));
     alarm.index = 600;
     stageGame.pushObj(alarm);
