@@ -1,4 +1,3 @@
-
   import {AWStage} from '../../stage/AWStage';
   import {AWObj} from '../AWObj';
   import {Subscription} from 'rxjs';
@@ -50,7 +49,9 @@
         }
 
         // CPU won
-        if ((this.y > gageBgY + gageBgH)) {
+        // if ((this.y > gageBgY + gageBgH - (this.img.height / 2))) {
+        if (this.y > gageBgY + gageBgH) {
+
           this.room.status = 'end';
           this.room.other.headsetConcentrationHistory.push(1000);
         }
@@ -83,23 +84,12 @@
 
 
 
-      // getting ration + dividing up the screen
-      //vertical line through middle
-      context.beginPath();
-      context.moveTo(this.stage.width / 2, 0);
-      context.lineTo(this.stage.width / 2, this.stage.height);
-      context.stroke();
-
-      //horizontal line through middle
-      context.beginPath();
-      context.moveTo(0, this.stage.height / 2);
-      context.lineTo(this.stage.width, this.stage.height / 2);
-      context.stroke();
+      // getting ratio + dividing up the screen
 
 
-      context.strokeStyle = '#0000FF';
+      //context.strokeStyle = '#0000FF';
 
-      //vertical
+      //horizontal
       for (let i = 1; i <= 14; i++ ) {
         context.beginPath();
         context.moveTo(0, i * (this.stage.height / 14));
@@ -107,13 +97,36 @@
         context.stroke();
       }
 
-      // horizontal
+      // vertical
       for (let i = 1; i <= 6; i++ ) {
         context.beginPath();
         context.moveTo(i * (this.stage.width / 6), 0);
         context.lineTo(i * (this.stage.width / 6), this.stage.height);
         context.stroke();
       }
+
+      //vertical line through middle
+      context.beginPath();
+      context.moveTo(this.stage.width / 2, 4 * (this.stage.height / 14));
+      context.lineTo(this.stage.width / 2, 10 * (this.stage.height / 14));
+      context.stroke();
+
+
+      // //horizontal
+      // for (let i = 8; i <= 20; i++ ) {
+      //   context.beginPath();
+      //   context.moveTo(0, i * (this.stage.height / 28));
+      //   context.lineTo(this.stage.width, i * (this.stage.height / 28));
+      //   context.stroke();
+      // }
+
+
+      //horizontal line through middle
+      context.beginPath();
+      context.moveTo(0, this.stage.height / 2);
+      context.lineTo(this.stage.width, this.stage.height / 2);
+      context.stroke();
+
 
 
     }
@@ -140,14 +153,27 @@
       //집중도
       this.roomDetailSubscription = this.stage.eventObservable(AWStageEvent.EVENT_ROOM_DETAIL).filter((it) => !ValidUtil.isNullOrUndefined(it.local) && !ValidUtil.isNullOrUndefined(it.other)).subscribe( (room: Room) => {
         console.log('laser score room ' + room.local.headsetConcentration + ' ' + room.other.headsetConcentration);
+
         if (room.status === RoomStatusCode.RUN) {
           this.room = room;
           let val = 0;
           if (this.room.local.headsetConcentration > this.room.other.headsetConcentration) {
-            val = -10;
+            //val = -10 - 2 * (this.room.local.headsetConcentration - this.room.other.headsetConcentration);
+            val = - (this.room.local.headsetConcentration - this.room.other.headsetConcentration);
+            val = Math.round(val * (this.stage.height / 112));
+            if (val < -Math.round(5 * (this.stage.height / 112))) {
+               val = -Math.round(5 * (this.stage.height / 112));
+            }
           } else if (this.room.local.headsetConcentration < this.room.other.headsetConcentration) {
-            val = +10;
+            //val = +10 + 2 * (this.room.other.headsetConcentration - this.room.local.headsetConcentration);
+            val = (this.room.other.headsetConcentration - this.room.local.headsetConcentration);
+            val = Math.round(val * (this.stage.height / 112));
+
+            if (val > Math.round(5 * (this.stage.height / 112))) {
+               val = Math.round(5 * (this.stage.height / 112));
+            }
           }
+          console.log('value: ' + val);
           this.targetPosition.add(0, val);
         }else {
           this.room = undefined;
